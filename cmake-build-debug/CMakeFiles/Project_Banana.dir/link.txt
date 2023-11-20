@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/Project_Banana.dir/main.c.o CMakeFiles/Project_Banana.dir/creature.c.o CMakeFiles/Project_Banana.dir/food.c.o  -o Project_Banana 
