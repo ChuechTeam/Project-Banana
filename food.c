@@ -64,3 +64,5 @@ void init_position_food(FoodList *food_list, int x, int y) { //Init the position
 
 
 
+
+

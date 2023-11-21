@@ -22,16 +22,17 @@ CreatureList *add_creature(CreatureList *creature_list) {
     return n1; // Returning the updated list with the new creature added
 }
 
-CreatureList* create_x_entities(CreatureList *creature_list, int x) {
+CreatureList *create_x_entities(CreatureList *creature_list, int x) {
     for (int i = 0; i < x; i++) {
         creature_list = add_creature(creature_list); // Adding x number of creatures to the list
     }
     return creature_list; // Returning the updated list with x new creatures added
 }
 
-void print_creature(Creature* creature) {
+void print_creature(Creature *creature) {
     // Printing the details of a single creature - its x, y coordinates, speed, and consumed food
-    printf("x : %d; y : %d ; speed : %.2f ; food : %d\n", creature->x, creature->y, creature->speed, creature->consumed_food);
+    printf("x : %d; y : %d ; speed : %.2f ; food : %d\n", creature->x, creature->y, creature->speed,
+           creature->consumed_food);
 }
 
 void print_creature_list(CreatureList *creature_list) {
@@ -44,8 +45,8 @@ void print_creature_list(CreatureList *creature_list) {
     print_creature(creature_list->creature); // Printing the details of the current creature
 }
 
-void delete_creature_list(CreatureList *creature_list){
-    if (creature_list->next == NULL){
+void delete_creature_list(CreatureList *creature_list) {
+    if (creature_list->next == NULL) {
         free(creature_list->creature); // Freeing memory for the last creature in the list
         return;
     }
@@ -53,15 +54,61 @@ void delete_creature_list(CreatureList *creature_list){
     free(creature_list->creature); // Freeing memory for the current creature
 }
 
-void init_position_creature(CreatureList *creature_list, int x, int y){
-    if (creature_list->next == NULL){
+void init_position_creature(CreatureList *creature_list, int x, int y) {
+    if (creature_list->next == NULL) {
         // Setting the position of the last creature in the list randomly within the specified space (x, y)
-        creature_list->creature->x = (rand() % (x - 0)+ 0);
-        creature_list->creature->y = (rand() % (y-0)+0);
+        creature_list->creature->x = (rand() % (x - 0) + 0);
+        creature_list->creature->y = (rand() % (y - 0) + 0);
         return;
     }
     init_position_creature(creature_list->next, x, y); // Recursively calling for the next creature
     // Setting the position of the current creature randomly within the specified space (x, y)
-    creature_list->creature->x = (rand() % (x - 0)+ 0);
-    creature_list->creature->y = (rand() % (y-0)+0);
+    creature_list->creature->x = (rand() % (x - 0) + 0);
+    creature_list->creature->y = (rand() % (y - 0) + 0);
+}
+
+CreatureTreeX *createTreeX(Creature *creature) {
+    CreatureTreeX *tree = malloc(sizeof(CreatureTreeX));
+    tree->left_subtree = NULL;
+    tree->right_subtree = NULL;
+    tree->creature = creature;
+
+    return tree;
+}
+
+void add_tree_x(CreatureTreeX *tree, Creature *creature) {
+    if (creature->x < tree->creature->x) {
+        if (tree->left_subtree == NULL) {
+            tree->left_subtree = createTreeX(creature);
+        } else {
+            add_tree_x(tree, creature);
+        }
+    } else {
+        if (tree->right_subtree == NULL) {
+            tree->right_subtree = createTreeX(creature);
+        } else {
+            add_tree_x(tree, creature);
+        }
+    }
+}
+
+
+void print_tree_x(CreatureTreeX *tree) {
+    printf("%d - ", tree->creature->x);
+    if (tree->left_subtree != NULL) {
+        print_tree_x(tree->left_subtree);
+    }
+    if (tree->right_subtree != NULL) {
+        print_tree_x(tree->left_subtree);
+    }
+}
+
+void listeXToTree(CreatureTreeX* tree, CreatureList* list){
+    add_tree_x(tree, list->creature);
+    if(list->next == NULL){
+        return;
+    }
+    else{
+        listeXToTree(tree, list->next);
+    }
 }

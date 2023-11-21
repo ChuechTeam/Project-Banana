@@ -5,9 +5,22 @@
 #include "creature.h"
 #include "food.h"
 
+typedef struct{
+    int length;
+    int width;
+}Map;
+
+void move_creature(Creature creature){
+
+}
 
 int main() {
     srand(time(NULL));
+
+    Map map;
+    map.length = 100;
+    map.width = 100;
+
     CreatureList *creature_list = malloc(sizeof(CreatureList));
     creature_list->next = NULL;
     creature_list->creature = creature_init();
@@ -16,7 +29,7 @@ int main() {
 
     print_creature_list(creature_list);
 
-    init_position_creature(creature_list, 100,100);
+    init_position_creature(creature_list, map.length,map.width);
 
     print_creature_list(creature_list);
 
@@ -30,10 +43,13 @@ int main() {
 
     print_food_list(food_list);
 
-    init_position_food(food_list, 100, 100);
+    init_position_food(food_list, map.length,map.width);
 
     print_food_list(food_list);
 
+    CreatureTreeX* creatureTreeX = createTreeX(creature_list->creature);
+    listeXToTree(creatureTreeX, creature_list->next);
+    print_tree_x(creatureTreeX);
 
     delete_creature_list(creature_list);
     free(creature_list);
