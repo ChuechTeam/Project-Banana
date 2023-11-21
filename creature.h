@@ -37,10 +37,10 @@ void print_creature(Creature* creature);
 void print_creature_list(CreatureList *creature_list);
 void delete_creature_list(CreatureList *creature_list);
 void init_position_creature(CreatureList *creature_list, int x, int y);
-CreatureTreeX *createTreeX(Creature *creature);
+CreatureTreeX *createTreeX();
 void add_tree_x(CreatureTreeX *tree, Creature *creature);
 void print_tree_x(CreatureTreeX *tree);
-void listeXToTree(CreatureTreeX* tree, CreatureList* list);
+CreatureTreeX* listeXToTree(CreatureTreeX *tree, CreatureList *list);
 
 
 #endif //PROJECT_BANANA_CREATURE_H

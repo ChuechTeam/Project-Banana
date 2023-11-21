@@ -29,7 +29,7 @@ int main() {
 
     print_creature_list(creature_list);
 
-    init_position_creature(creature_list, map.length,map.width);
+    init_position_creature(creature_list, 5,5);//map.length,map.width);
 
     print_creature_list(creature_list);
 
@@ -47,8 +47,8 @@ int main() {
 
     print_food_list(food_list);
 
-    CreatureTreeX* creatureTreeX = createTreeX(creature_list->creature);
-    listeXToTree(creatureTreeX, creature_list->next);
+    CreatureTreeX* creatureTreeX = createTreeX();
+    creatureTreeX = listeXToTree(creatureTreeX, creature_list);
     print_tree_x(creatureTreeX);
 
     delete_creature_list(creature_list);

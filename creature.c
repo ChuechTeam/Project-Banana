@@ -67,48 +67,58 @@ void init_position_creature(CreatureList *creature_list, int x, int y) {
     creature_list->creature->y = (rand() % (y - 0) + 0);
 }
 
-CreatureTreeX *createTreeX(Creature *creature) {
+CreatureTreeX *createTreeX() {
     CreatureTreeX *tree = malloc(sizeof(CreatureTreeX));
     tree->left_subtree = NULL;
     tree->right_subtree = NULL;
-    tree->creature = creature;
+    tree->creature = NULL;
 
     return tree;
 }
 
+
 void add_tree_x(CreatureTreeX *tree, Creature *creature) {
-    if (creature->x < tree->creature->x) {
+    if (tree->creature == NULL) {
+        tree->creature = creature;
+    } else if (creature->x == tree->creature->x) {
+        CreatureTreeX *next = createTreeX();
+        next->creature = creature;
+        next->right_subtree = tree->right_subtree;
+        tree->right_subtree = next;
+    } else if (creature->x < tree->creature->x) {
         if (tree->left_subtree == NULL) {
-            tree->left_subtree = createTreeX(creature);
+            tree->left_subtree = createTreeX();
+            tree->left_subtree->creature = creature;
         } else {
-            add_tree_x(tree, creature);
+            add_tree_x(tree->left_subtree, creature);
+
         }
-    } else {
+    } else if (creature->x > tree->creature->x) {
         if (tree->right_subtree == NULL) {
-            tree->right_subtree = createTreeX(creature);
+            tree->right_subtree = createTreeX();
+            tree->right_subtree->creature = creature;
         } else {
-            add_tree_x(tree, creature);
+            add_tree_x(tree->right_subtree, creature);
         }
     }
 }
 
-
+//TODO: renommer en parcours préfixe et faire les autres parcours pour vérifier que l'arbre est correct
 void print_tree_x(CreatureTreeX *tree) {
     printf("%d - ", tree->creature->x);
     if (tree->left_subtree != NULL) {
         print_tree_x(tree->left_subtree);
     }
     if (tree->right_subtree != NULL) {
-        print_tree_x(tree->left_subtree);
+        print_tree_x(tree->right_subtree);
     }
 }
 
-void listeXToTree(CreatureTreeX* tree, CreatureList* list){
+CreatureTreeX *listeXToTree(CreatureTreeX *tree, CreatureList *list) {
     add_tree_x(tree, list->creature);
-    if(list->next == NULL){
-        return;
-    }
-    else{
+    if (list->next == NULL) {
+        return tree;
+    } else {
         listeXToTree(tree, list->next);
     }
 }
