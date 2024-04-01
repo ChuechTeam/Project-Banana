@@ -6,15 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.c
+/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.h
+stdio.h
+-
+stdlib.h
+-
+
+/mnt/c/Users/cacac/CLionProjects/Project-Banana/main.c
 stdio.h
 -
 stdlib.h
 -
 time.h
 -
-creature.h
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.h
-
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.h
+entities.h
+/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.h
 

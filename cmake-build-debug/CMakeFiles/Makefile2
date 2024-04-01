@@ -74,12 +74,12 @@ clean: CMakeFiles/Project_Banana.dir/clean
 CMakeFiles/Project_Banana.dir/all:
 	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/depend
 	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4 "Built target Project_Banana"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target Project_Banana"
 .PHONY : CMakeFiles/Project_Banana.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Project_Banana.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles 4
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/Project_Banana.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/Project_Banana.dir/rule

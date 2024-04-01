@@ -123,59 +123,32 @@ Project_Banana/fast:
 	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/build
 .PHONY : Project_Banana/fast
 
-creature.o: creature.c.o
+entities.o: entities.c.o
 
-.PHONY : creature.o
-
-# target to build an object file
-creature.c.o:
-	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/creature.c.o
-.PHONY : creature.c.o
-
-creature.i: creature.c.i
-
-.PHONY : creature.i
-
-# target to preprocess a source file
-creature.c.i:
-	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/creature.c.i
-.PHONY : creature.c.i
-
-creature.s: creature.c.s
-
-.PHONY : creature.s
-
-# target to generate assembly for a file
-creature.c.s:
-	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/creature.c.s
-.PHONY : creature.c.s
-
-food.o: food.c.o
-
-.PHONY : food.o
+.PHONY : entities.o
 
 # target to build an object file
-food.c.o:
-	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/food.c.o
-.PHONY : food.c.o
+entities.c.o:
+	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/entities.c.o
+.PHONY : entities.c.o
 
-food.i: food.c.i
+entities.i: entities.c.i
 
-.PHONY : food.i
+.PHONY : entities.i
 
 # target to preprocess a source file
-food.c.i:
-	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/food.c.i
-.PHONY : food.c.i
+entities.c.i:
+	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/entities.c.i
+.PHONY : entities.c.i
 
-food.s: food.c.s
+entities.s: entities.c.s
 
-.PHONY : food.s
+.PHONY : entities.s
 
 # target to generate assembly for a file
-food.c.s:
-	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/food.c.s
-.PHONY : food.c.s
+entities.c.s:
+	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/entities.c.s
+.PHONY : entities.c.s
 
 main.o: main.c.o
 
@@ -213,12 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... Project_Banana"
-	@echo "... creature.o"
-	@echo "... creature.i"
-	@echo "... creature.s"
-	@echo "... food.o"
-	@echo "... food.i"
-	@echo "... food.s"
+	@echo "... entities.o"
+	@echo "... entities.i"
+	@echo "... entities.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
