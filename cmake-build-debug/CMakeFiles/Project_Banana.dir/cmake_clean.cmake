@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Project_Banana.dir/entities.c.o"
   "CMakeFiles/Project_Banana.dir/main.c.o"
+  "CMakeFiles/Project_Banana.dir/world.c.o"
   "Project_Banana"
   "Project_Banana.pdb"
 )

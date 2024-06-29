@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_C
   "/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.c" "/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles/Project_Banana.dir/entities.c.o"
   "/mnt/c/Users/cacac/CLionProjects/Project-Banana/main.c" "/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles/Project_Banana.dir/main.c.o"
+  "/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.c" "/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles/Project_Banana.dir/world.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

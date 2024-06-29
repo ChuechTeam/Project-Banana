@@ -7,4 +7,6 @@
 
 enum error_type{SUCCESS, OUT_OF_RANGE};
 
+#define SQUARE(a) (a) * (a)
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif //PROJECT_BANANA_MACRO_H

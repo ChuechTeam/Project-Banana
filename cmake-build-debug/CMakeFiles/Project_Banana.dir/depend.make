@@ -4,7 +4,13 @@
 CMakeFiles/Project_Banana.dir/entities.c.o: ../entities.c
 CMakeFiles/Project_Banana.dir/entities.c.o: ../entities.h
 CMakeFiles/Project_Banana.dir/entities.c.o: ../macro.h
+CMakeFiles/Project_Banana.dir/entities.c.o: ../world.h
 
 CMakeFiles/Project_Banana.dir/main.c.o: ../entities.h
 CMakeFiles/Project_Banana.dir/main.c.o: ../main.c
+CMakeFiles/Project_Banana.dir/main.c.o: ../world.h
+
+CMakeFiles/Project_Banana.dir/world.c.o: ../entities.h
+CMakeFiles/Project_Banana.dir/world.c.o: ../world.c
+CMakeFiles/Project_Banana.dir/world.c.o: ../world.h
 

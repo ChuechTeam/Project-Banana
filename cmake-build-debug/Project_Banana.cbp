@@ -88,6 +88,12 @@
 		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/main.c">
 			<Option target="Project_Banana"/>
 		</Unit>
+		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.c">
+			<Option target="Project_Banana"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.h">
+			<Option target="Project_Banana"/>
+		</Unit>
 		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

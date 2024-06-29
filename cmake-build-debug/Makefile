@@ -177,6 +177,33 @@ main.c.s:
 	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/main.c.s
 .PHONY : main.c.s
 
+world.o: world.c.o
+
+.PHONY : world.o
+
+# target to build an object file
+world.c.o:
+	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/world.c.o
+.PHONY : world.c.o
+
+world.i: world.c.i
+
+.PHONY : world.i
+
+# target to preprocess a source file
+world.c.i:
+	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/world.c.i
+.PHONY : world.c.i
+
+world.s: world.c.s
+
+.PHONY : world.s
+
+# target to generate assembly for a file
+world.c.s:
+	$(MAKE) -f CMakeFiles/Project_Banana.dir/build.make CMakeFiles/Project_Banana.dir/world.c.s
+.PHONY : world.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... world.o"
+	@echo "... world.i"
+	@echo "... world.s"
 .PHONY : help
 
 

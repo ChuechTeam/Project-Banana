@@ -3,31 +3,29 @@
 #include <time.h>
 
 #include "entities.h"
-
-typedef struct{
-    int length;
-    int width;
-}Map;
+#include "world.h"
 
 
 
 int main() {
     srand(time(NULL));
 
-    Map map;
-    map.length = 100;
-    map.width = 100;
+    int map_length = 10;
+    int map_width = 10;
 
-    Entity_list entity_list;
-    int size = 11;
-    list_init(&entity_list, size);
-    printf("%d\n", fill_list(&entity_list, 3, FOOD));
-    print_list(&entity_list);
-    printf("%d\n", fill_list(&entity_list, 4, CREATURE));
-    print_list(&entity_list);
-    printf("%d\n", fill_list(&entity_list, 3, FOOD));
-    print_list(&entity_list);
 
+    World_stats world;
+    world_init(&world, 10, map_length, map_width);
+
+    fill_list(&world.entities_list, 2, FOOD);
+    fill_list(&world.entities_list, 2, CREATURE);
+    sort_entities_by_type(&world);
+
+    //random_position_list(world.map, &world.entities_list);
+
+    for(int i = 0; i < world.creatures.last_index;i++){
+        world.creatures.entity_list[i].Creature.goal = closest_entity(&world.creatures.entity_list[i],&world.foods);
+    }
 
 
 
