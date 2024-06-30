@@ -6,20 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.c
-entities.h
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.h
-stdio.h
--
-stdlib.h
--
-macro.h
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/macro.h
-world.h
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.h
-math.h
--
-
 /mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.h
 stdio.h
 -
@@ -27,8 +13,6 @@ stdlib.h
 -
 world.h
 /mnt/c/Users/cacac/CLionProjects/Project-Banana/world.h
-
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/macro.h
 
 /mnt/c/Users/cacac/CLionProjects/Project-Banana/main.c
 stdio.h
@@ -42,17 +26,5 @@ entities.h
 world.h
 /mnt/c/Users/cacac/CLionProjects/Project-Banana/world.h
 
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.c
-world.h
 /mnt/c/Users/cacac/CLionProjects/Project-Banana/world.h
-stdio.h
--
-stdlib.h
--
-entities.h
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.h
-
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.h
-entities.h
-/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.h
 
