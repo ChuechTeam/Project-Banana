@@ -6,8 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "macro.h"
-#include "world.h"
 #include <math.h>
+#include "world.h"
 
 
 void entity_init(Entity *entity) {
@@ -15,6 +15,7 @@ void entity_init(Entity *entity) {
     entity->y = 0;
     switch (entity->type) {
         case CREATURE:
+            entity->Creature.goal=NULL;
             entity->Creature.speed = 1.0; // Setting the speed of the creature to 1.0
             entity->Creature.energy = 5.0;
             entity->Creature.consumed_food = 0; // Setting initial consumed food to 0
@@ -28,6 +29,7 @@ void entity_init(Entity *entity) {
 Entity *create_entity(int type) {
     Entity *entity = malloc(sizeof(Entity));
     entity->type = type;
+    entity_init(entity);
     return entity;
 }
 
@@ -52,46 +54,60 @@ int fill_list(Entity_list *list, int number, int type) {
         return OUT_OF_RANGE;
     }
     for (int i = 0; i < number; i++) {
-        list->entity_list[list->last_index + i] = *create_entity(type); //add the new entity at the last index
+        list->entity_list[list->last_index + i] = create_entity(type); //add the new entity at the last index
     }
     list->last_index += number;
     return SUCCESS;
 }
 
 
-int insert_Entity_to_list(Entity_list* list, Entity entity){
+int insert_Entity_to_list(Entity_list* list, Entity* entity){
     if (list->last_index >= list->capacity){
         return OUT_OF_RANGE;
     }
-
+    entity->index = list->last_index;
     list->entity_list[list->last_index] = entity;
+
     list->last_index ++;
     return SUCCESS;
 }
 
 /*list all the entities by telling the type*/
 void print_list(Entity_list *list) {
+    printf("list:");
     int a;
     for (int i = 0; i < list->last_index; i++) {
         //a = list->entity_list[i].type;
-        printf("%d , ", list->entity_list[i].type);
+        printf("%d , ", list->entity_list[i]->type);
     }
     printf("\n");
 }
 
 
-int moving_to(Entity *entity, int x, int y) {
+void moving_to(Entity *entity, int x, int y) {
+    /*//debug
+    entity->Creature.speed = 3;
+    entity->Creature.energy = 5;
+    entity->x=5;
+    entity->y=3;
+    x = entity->x-2;
+    y = entity->y+1;*/
+
     // Check if the entity has enough energy to move
     if (entity->Creature.energy > 0) {
         // Calculate the angle towards the target position (x, y)
         double theta = atan2(y - entity->y, x - entity->x);
+        if (theta<0){
+            theta+=2*M_PI;
+        }
 
         // Determine the maximum distance the entity can move
-        int range = MIN(entity->Creature.energy, entity->Creature.speed);
+        int norm = (int) sqrt(SQUARE(y - entity->y)+SQUARE(x - entity->x));
+        int range = MIN(norm,MIN(entity->Creature.energy, entity->Creature.speed));
 
         // Update the entity's position
-        entity->x = (int) (range * cos(theta));
-        entity->y = (int) (range * sin(theta));
+        entity->x += (int) NEAREST_INT(range * (cos(theta)));
+        entity->y += (int) NEAREST_INT(range * (sin(theta)));
 
         // Reduce the entity's energy by its speed
         entity->Creature.energy -= entity->Creature.speed;
@@ -105,27 +121,82 @@ float distance_to(Entity* entity, int x, int y){
 
 //search in the list the closest entity and return its pointer
 Entity* closest_entity(Entity* entity, Entity_list* list){
-    float closest = distance_to(entity, list->entity_list[0].x, list->entity_list[0].y);
+    float closest = distance_to(entity, list->entity_list[0]->x, list->entity_list[0]->y);
     int index = 0;
     for (int i = 1; i < list->last_index;i++){
-        if(closest < distance_to(entity, list->entity_list[i].x, list->entity_list[i].y)){
-            closest = distance_to(entity, list->entity_list[i].x, list->entity_list[i].y);
+        if(closest > distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y)){
+            closest = distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y);
             index = i;
         }
     }
-    return &list->entity_list[index];
+    return list->entity_list[index];
 }
 
-/*
+//print the value you want, see the enum entity_value to know what to write for type
+//exemple : print_entity_value(entity, COORDINATES) => print x and y coordinates
+void print_entity_value(Entity entity, int type) {
+    switch (type) {
+        case TYPE:
+            printf("TYPE: %d\n", entity.type);
+            break;
+        case INDEX:
+            printf("INDEX: %d\n", entity.index);
+            break;
+        case COORDINATES:
+            printf("COORDINATES: x:%d y:%d\n", entity.x, entity.y);
+            break;
+        case GOAL:
+            if (entity.Creature.goal==NULL){
+                break;
+            }
+            printf("GOAL COORDINATES: x:%d y:%d\n", entity.Creature.goal->x, entity.Creature.goal->y);
+            break;
+        case SPEED:
+            printf("SPEED: %0.2f\n", entity.Creature.speed);
+            break;
+        case ENERGY:
+            printf("ENERGY: %0.2f\n", entity.Creature.energy);
+            break;
+        case CONSUMED_FOOD:
+            printf("CONSUMED_FOOD: %d\n", entity.Creature.consumed_food);
+            break;
+    }
+}
+
+void print_entity(Entity entity){
+    printf("----------------------\n");
+    print_entity_value(entity, TYPE);
+    print_entity_value(entity, COORDINATES);
+    switch (entity.type) {
+        case CREATURE:
+            print_entity_value(entity, GOAL);
+            print_entity_value(entity, SPEED);
+            print_entity_value(entity, ENERGY);
+            print_entity_value(entity, CONSUMED_FOOD);
+            break;
+        case FOOD:
+            break;
+        default:
+            break;
+    }
+    printf("----------------------\n");
+}
+
 void random_position_entity(Map map, Entity* entity){
     entity->x = rand()% (map.length-1);
     entity->y = rand()% (map.width-1);
-}*/
-/*
+}
+
 void random_position_list(Map map, Entity_list* list){
     for (int i = 0;i <list->last_index;i++){
-        random_position_entity(map, &list->entity_list[i]);
+        random_position_entity(map, list->entity_list[i]);
     }
-}*/
+}
+
+void print_entities_list(Entity_list list){
+    for (int i =0;i<list.last_index;i++){
+        print_entity(*list.entity_list[i]);
+    }
+}
 
 

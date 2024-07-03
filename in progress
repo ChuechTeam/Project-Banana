@@ -1,7 +1,10 @@
 partie deplcacement
+    fonctionne absolument pas
 
 initialiser goal pour creature
-rajouter la récupération de l'index dans la liste globale d'entités lors de la création de l'entité
+
+
+
 
 fiare une struct pour les couples ?
 faire un append, pop, etc
