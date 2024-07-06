@@ -8,9 +8,9 @@
 #ifdef _WIN32
     #define _USE_MATH_DEFINES
 #elif defined(__linux__)
-    ...
+
 #endif
-enum error_type{SUCCESS, OUT_OF_RANGE};
+enum error_type{SUCCESS, OUT_OF_RANGE, WRONG_TYPE};
 
 #define SQUARE(a) ((a) * (a))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))

@@ -9,9 +9,10 @@
 #include <stdlib.h>
 #include "world.h"
 
-enum entity_type {
+enum entityList_type {
     DEFAULT, CREATURE, FOOD
 };
+
 
 enum entity_values{
     TYPE, INDEX, COORDINATES, GOAL, SPEED, ENERGY, CONSUMED_FOOD
@@ -26,9 +27,11 @@ typedef struct Entity {
     //commun
     int x;
     int y;
+    int alive;
 
     union {
         struct {
+            int index;
             struct Entity* goal;
             double speed;
             double energy;
@@ -37,13 +40,14 @@ typedef struct Entity {
 
 
         struct {
-            int pouet;
+            int index;
         } Food;
     };
 } Entity;
 
 
 typedef struct Entity_list {
+    int type;
     Entity **entity_list;
     int last_index; //last empty index (aka index(last_element)+1)
     int capacity;
@@ -80,5 +84,9 @@ void random_position_entity(Map map, Entity* entity);
 void random_position_list(Map map, Entity_list* list);
 
 void print_entities_list(Entity_list list);
+
+int same_coordinates(Entity* a, Entity* b);
+
+void kill_entity(World_stats* world, Entity* entity);
 
 #endif //PROJECT_BANANA_ENTITIES_H

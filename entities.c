@@ -13,6 +13,7 @@
 void entity_init(Entity *entity) {
     entity->x = 0;
     entity->y = 0;
+    int alive = 1;
     switch (entity->type) {
         case CREATURE:
             entity->Creature.goal=NULL;
@@ -42,6 +43,7 @@ void list_init(Entity_list *list, int size) {
     } else {
         list->capacity = size;
     }
+    list->type = DEFAULT;
     list->entity_list = malloc(sizeof(Entity) * list->capacity);
     list->last_index = 0;
 }
@@ -65,20 +67,38 @@ int insert_Entity_to_list(Entity_list* list, Entity* entity){
     if (list->last_index >= list->capacity){
         return OUT_OF_RANGE;
     }
-    entity->index = list->last_index;
-    list->entity_list[list->last_index] = entity;
+    switch (list->type) {
+        case(CREATURE):
+            if(entity->type == CREATURE){
+                entity->Creature.index = list->last_index;
+                list->entity_list[list->last_index] = entity;
+                break;
+            }
+            return WRONG_TYPE;
+        case(FOOD):
+            if(entity->type == FOOD){
+                entity->Food.index = list->last_index;
+                list->entity_list[list->last_index] = entity;
+                break;
+            }
+            return WRONG_TYPE;
+        case(DEFAULT):
+            entity->index = list->last_index;
+            list->entity_list[list->last_index] = entity;
+            break;
+    }
+    list->last_index++;
 
-    list->last_index ++;
     return SUCCESS;
 }
 
 /*list all the entities by telling the type*/
 void print_list(Entity_list *list) {
-    printf("list:");
-    int a;
+    printf("list:%d|", list->type);
+    //int a;
     for (int i = 0; i < list->last_index; i++) {
         //a = list->entity_list[i].type;
-        printf("%d , ", list->entity_list[i]->type);
+        printf("%d , ",list->entity_list[i]->type);
     }
     printf("\n");
 }
@@ -121,10 +141,16 @@ float distance_to(Entity* entity, int x, int y){
 
 //search in the list the closest entity and return its pointer
 Entity* closest_entity(Entity* entity, Entity_list* list){
+    if (list->entity_list[0]->type==DEFAULT){
+        return entity;
+    }
     float closest = distance_to(entity, list->entity_list[0]->x, list->entity_list[0]->y);
     int index = 0;
     for (int i = 1; i < list->last_index;i++){
-        if(closest > distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y)){
+        if(list->entity_list[i]->type == DEFAULT){
+            break;
+        }
+        else if(closest > distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y)){
             closest = distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y);
             index = i;
         }
@@ -196,6 +222,34 @@ void random_position_list(Map map, Entity_list* list){
 void print_entities_list(Entity_list list){
     for (int i =0;i<list.last_index;i++){
         print_entity(*list.entity_list[i]);
+    }
+}
+
+int same_coordinates(Entity* a, Entity* b){
+    return (a->x == b->x && a->y ==b->y);
+}
+
+void kill_entity(World_stats* world, Entity* entity){
+    int index = entity->index;
+    world->entities_list->entity_list[index] = world->entities_list->entity_list[world->entities_list->last_index-1];
+    world->entities_list->entity_list[index]->index = index;
+    world->entities_list->entity_list[world->entities_list->last_index-1] = entity;
+    world->entities_list->entity_list[world->entities_list->last_index-1]->index = world->entities_list->last_index -1;
+    world->entities_list->entity_list[world->entities_list->last_index-1]->alive = 0;
+
+    switch (entity->type) {
+        case(CREATURE):
+            world->creatures->entity_list[index] = world->creatures->entity_list[world->creatures->last_index-1];
+            world->creatures->entity_list[index]->Creature.index = index;
+            world->creatures->entity_list[world->creatures->last_index-1] = entity;
+            world->creatures->entity_list[world->creatures->last_index-1]->Creature.index = world->creatures->last_index -1;
+            break;
+        case(FOOD):
+            world->foods->entity_list[index] = world->foods->entity_list[world->foods->last_index-1];
+            world->foods->entity_list[index]->Food.index = index;
+            world->foods->entity_list[world->foods->last_index-1] = entity;
+            world->foods->entity_list[world->foods->last_index-1]->Food.index = world->foods->last_index -1;
+            break;
     }
 }
 

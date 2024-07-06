@@ -13,11 +13,15 @@ void world_init(World_stats* world, int map_length, int map_width, int size_enti
     world->foods = malloc(sizeof(Entity_list));
     list_init(world->entities_list, size_entity_list);
     list_init(world->creatures, size_entity_list);
+    world->creatures->type = CREATURE;
     list_init(world->foods, size_entity_list);
+    world->foods->type = FOOD;
 
     world->map.length=map_length;
     world->map.width = map_width;
 
+
+    world->game = 1;
 }
 
 void sort_entities_by_type(World_stats* world){
@@ -39,3 +43,6 @@ void print_world_lists(World_stats world){
     print_list(world.creatures);
     print_list(world.foods);
 }
+
+
+

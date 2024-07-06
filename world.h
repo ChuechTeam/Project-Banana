@@ -23,6 +23,8 @@ typedef struct World_stats{
     //map
     Map map;
 
+    int game;
+
 
 } World_stats;
 

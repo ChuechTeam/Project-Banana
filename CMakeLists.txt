@@ -9,7 +9,9 @@ add_executable(Project_Banana
         main.c entities.h entities.c macro.h
         world.h
         world.c
-        world.c)
+        world.c
+        game.h
+        game.c)
 
 
 
