@@ -5,30 +5,42 @@
 #include "entities.h"
 #include "world.h"
 #include "game.h"
+#include "macro.h"
 
 
 
 int main() {
     srand(time(NULL));
 
-    int map_length = 3;
-    int map_width = 3;
+    int map_length = 10;
+    int map_width = 10;
 
 
     World_stats world;
     world_init(&world, map_length, map_width, 10);
 
-
-    fill_list(world.entities_list, 2, CREATURE);
-    fill_list(world.entities_list, 2, FOOD);
-
-
+    fill_list(&world, world.creatures, 2, CREATURE);
+    fill_list(&world, world.entities_list, 2, FOOD);
+    
+    random_position_list(world.map, world.creatures);
+    //print_entities_list(world.creatures);
+    
+    /*
+    int alive = world.creatures->alive;
+    FOR_LOOP(i, 0, alive, 1){
+        kill_entity(&world, world.creatures->entity_list[i]);
+        i --;
+        alive --;
+    }*/
+    //print_entities_list(world.creatures);
+    print_world_lists(world);
+    
 
     sort_entities_by_type(&world);
 
 
 
-    random_position_list(world.map, world.entities_list);
+    
     print_world_lists(world);
     game_loop(&world);
 

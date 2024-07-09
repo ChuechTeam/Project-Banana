@@ -5,10 +5,11 @@
 #include "game.h"
 #include "world.h"
 #include "entities.h"
+#include "macro.h"
 
 void creatures_turn(World_stats* world){
-    int alive = world->creatures->last_index;
-    for (int i = 0; i < world->creatures->last_index; i++) {
+    int n = world->creatures->last_index;
+    FOR_LOOP(i, 0, n, 1){
         Entity *entity = world->creatures->entity_list[i];
         if (entity->alive) {
             entity->Creature.goal =
@@ -18,12 +19,15 @@ void creatures_turn(World_stats* world){
                 if (entity->Creature.goal->type == FOOD) {
                     entity->Creature.consumed_food++;
                     kill_entity(world, entity->Creature.goal);
+                    i--;
+                    n--;
                 }
             }
         }
         if(entity->Creature.energy <=0){
             kill_entity(world, entity);
-            alive --;
+            i--;
+            n--;
         }
     }
 }
@@ -34,7 +38,9 @@ void game_loop(World_stats *world) {
         print_world_lists(*world);
 
         creatures_turn(world);
-
+        if (world->creatures->alive <=0 || world->foods->alive <= 0){
+            world->game = 0;
+        }
         print_world_lists(*world);
         
     }

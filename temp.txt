@@ -1,0 +1,33 @@
+int insert_Entity_to_list(Entity_list* list, Entity* entity){
+    if (list->last_index >= list->capacity){
+        return OUT_OF_RANGE;
+    }
+    if (list->type == DEFAULT){
+        entity->index = list->last_index;
+        list->entity_list[list->last_index] = entity;
+    }
+    else{
+        switch (list->type) {
+            case(CREATURE):
+                if(entity->type == CREATURE){
+                    entity->Creature.index = list->last_index;
+                    break;
+                }
+                return WRONG_TYPE;
+            case(FOOD):
+                if(entity->type == FOOD){
+                    entity->Food.index = list->last_index;
+                    break;
+                }
+                return WRONG_TYPE;
+            entity->sub_index = list->last_index;
+            list->entity_list[list->last_index] = entity;
+        }
+    }
+    list->alive ++;
+    list->last_index ++;
+    return SUCCESS;
+}
+
+#define FORWHILE(i, start, end, step) \
+    for ((i) = (start); (step) > 0 ? (i)x < (end) : (i) > (end); (i) += (step))

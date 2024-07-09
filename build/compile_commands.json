@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/home/nathaan/Documents/banana/Project-Banana/build",
+  "command": "/usr/bin/gcc -g -std=gnu11 -o CMakeFiles/Project_Banana.dir/main.c.o -c /home/nathaan/Documents/banana/Project-Banana/main.c",
+  "file": "/home/nathaan/Documents/banana/Project-Banana/main.c",
+  "output": "CMakeFiles/Project_Banana.dir/main.c.o"
+},
+{
+  "directory": "/home/nathaan/Documents/banana/Project-Banana/build",
+  "command": "/usr/bin/gcc -g -std=gnu11 -o CMakeFiles/Project_Banana.dir/entities.c.o -c /home/nathaan/Documents/banana/Project-Banana/entities.c",
+  "file": "/home/nathaan/Documents/banana/Project-Banana/entities.c",
+  "output": "CMakeFiles/Project_Banana.dir/entities.c.o"
+},
+{
+  "directory": "/home/nathaan/Documents/banana/Project-Banana/build",
+  "command": "/usr/bin/gcc -g -std=gnu11 -o CMakeFiles/Project_Banana.dir/world.c.o -c /home/nathaan/Documents/banana/Project-Banana/world.c",
+  "file": "/home/nathaan/Documents/banana/Project-Banana/world.c",
+  "output": "CMakeFiles/Project_Banana.dir/world.c.o"
+},
+{
+  "directory": "/home/nathaan/Documents/banana/Project-Banana/build",
+  "command": "/usr/bin/gcc -g -std=gnu11 -o CMakeFiles/Project_Banana.dir/game.c.o -c /home/nathaan/Documents/banana/Project-Banana/game.c",
+  "file": "/home/nathaan/Documents/banana/Project-Banana/game.c",
+  "output": "CMakeFiles/Project_Banana.dir/game.c.o"
+}
+]

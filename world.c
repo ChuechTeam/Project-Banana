@@ -26,14 +26,16 @@ void world_init(World_stats* world, int map_length, int map_width, int size_enti
 
 void sort_entities_by_type(World_stats* world){
     for (int i = 0; i < world->entities_list->last_index; i++){
-        switch (world->entities_list->entity_list[i]->type) {
-            case CREATURE:
-                insert_Entity_to_list(world->creatures,
-                                      world->entities_list->entity_list[i]);
-                break;
-            case FOOD:
-                insert_Entity_to_list(world->foods, world->entities_list->entity_list[i]);
-                break;
+        if (world->entities_list->entity_list[i]->sub_index == -1){
+            switch (world->entities_list->entity_list[i]->type) {
+                case CREATURE:
+                    insert_Entity_to_list(world->creatures,
+                                        world->entities_list->entity_list[i]);
+                    break;
+                case FOOD:
+                    insert_Entity_to_list(world->foods, world->entities_list->entity_list[i]);
+                    break;
+            }
         }
     }
 }

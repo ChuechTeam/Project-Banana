@@ -15,7 +15,7 @@ enum entityList_type {
 
 
 enum entity_values{
-    TYPE, INDEX, COORDINATES, GOAL, SPEED, ENERGY, CONSUMED_FOOD
+    TYPE, INDEX, SUB_INDEX, ALIVE, COORDINATES, GOAL, SPEED, ENERGY, CONSUMED_FOOD
 };
 
 
@@ -23,6 +23,7 @@ enum entity_values{
 typedef struct Entity {
     int type; // 0 = none/null ; 1 = creature ; 2 = food
     int index; //index in entities_list
+    int sub_index; //index in the sub list (depend of the type of the entity)
 
     //commun
     int x;
@@ -31,7 +32,6 @@ typedef struct Entity {
 
     union {
         struct {
-            int index;
             struct Entity* goal;
             double speed;
             double energy;
@@ -40,7 +40,7 @@ typedef struct Entity {
 
 
         struct {
-            int index;
+            int pouet;
         } Food;
     };
 } Entity;
@@ -49,6 +49,7 @@ typedef struct Entity {
 typedef struct Entity_list {
     int type;
     Entity **entity_list;
+    int alive; //number of entities alive
     int last_index; //last empty index (aka index(last_element)+1)
     int capacity;
 } Entity_list;
@@ -63,7 +64,7 @@ Entity *create_entity(int type);
 
 void list_init(Entity_list* list, int size);
 
-int fill_list(Entity_list* list, int number, int type);
+int fill_list(World_stats * world, Entity_list* list, int number, int type);
 
 int insert_Entity_to_list(Entity_list* list, Entity* entity);
 
@@ -83,7 +84,7 @@ void random_position_entity(Map map, Entity* entity);
 
 void random_position_list(Map map, Entity_list* list);
 
-void print_entities_list(Entity_list list);
+void print_entities_list(Entity_list* list);
 
 int same_coordinates(Entity* a, Entity* b);
 
