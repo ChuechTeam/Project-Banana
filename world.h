@@ -25,6 +25,9 @@ typedef struct World_stats{
 
     int game;
 
+    //next gen
+    struct Entity_list* reproduce;
+
 
 } World_stats;
 

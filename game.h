@@ -11,4 +11,6 @@ void creatures_turn(World_stats* world);
 
 void game_loop(World_stats * world);
 
+void to_next_gen(World_stats* world);
+
 #endif //PROJECT_BANANA_GAME_H

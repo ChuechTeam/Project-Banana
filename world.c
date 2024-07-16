@@ -11,11 +11,14 @@ void world_init(World_stats* world, int map_length, int map_width, int size_enti
     world->entities_list = malloc(sizeof(Entity_list));
     world->creatures = malloc(sizeof(Entity_list));
     world->foods = malloc(sizeof(Entity_list));
+    world->reproduce = malloc(sizeof(Entity_list));
     list_init(world->entities_list, size_entity_list);
     list_init(world->creatures, size_entity_list);
     world->creatures->type = CREATURE;
     list_init(world->foods, size_entity_list);
     world->foods->type = FOOD;
+    list_init(world->reproduce, size_entity_list);
+    world->reproduce->type = CREATURE;
 
     world->map.length=map_length;
     world->map.width = map_width;

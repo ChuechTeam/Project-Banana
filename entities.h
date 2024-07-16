@@ -90,4 +90,6 @@ int same_coordinates(Entity* a, Entity* b);
 
 void kill_entity(World_stats* world, Entity* entity);
 
+void free_world_list(World_stats* world);
+
 #endif //PROJECT_BANANA_ENTITIES_H

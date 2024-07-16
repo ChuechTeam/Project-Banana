@@ -145,13 +145,13 @@ Entity* closest_entity(Entity* entity, Entity_list* list){
     if (list->alive == 0){
         return entity;
     }
-    if (list->entity_list[0]->type==DEFAULT){
+    if (list->entity_list[0]->alive == 0){
         return entity;
     }
     float closest = distance_to(entity, list->entity_list[0]->x, list->entity_list[0]->y);
     int index = 0;
     for (int i = 1; i < list->last_index;i++){
-        if(list->entity_list[i]->type == DEFAULT){
+        if(list->entity_list[i]->alive == 0){
             break;
         }
         else if(closest > distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y)){
@@ -242,7 +242,14 @@ int same_coordinates(Entity* a, Entity* b){
     return (a->x == b->x && a->y ==b->y);
 }
 
+void move_to_end(World_stats* world, Entity* entity){
+    
+}
+
 void kill_entity(World_stats* world, Entity* entity){
+    if(entity->alive == 0){
+        return;
+    }
     int index = entity->index;
     entity->alive = 0;
     world->entities_list->entity_list[index] = world->entities_list->entity_list[world->entities_list->alive-1];
@@ -269,4 +276,19 @@ void kill_entity(World_stats* world, Entity* entity){
     }
 }
 
+void free_entity(World_stats* world, Entity* entity){
+    if(entity->alive){
+        world->entities_list->alive --;
+    } 
+    kill_entity(world, entity);
+    free(world->entities_list->entity_list[entity->index]);
+}
 
+void free_world_list(World_stats* world){
+    for (int i =0 ; i< world->entities_list->last_index;i++){
+        free(world->entities_list->entity_list[i]);
+    }
+    free(world->entities_list);
+    free(world->creatures);
+    free(world->foods);
+}

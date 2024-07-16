@@ -21,6 +21,14 @@ enum error_type{SUCCESS, OUT_OF_RANGE, WRONG_TYPE};
 // Macro pour obtenir le nombre le plus proche entre floor et ceil
 #define NEAREST_INT(x) (((x) - floor(x)) < (ceil(x) - (x)) ? floor(x) : ceil(x))
 
-#define PING printf("ping\n")
+#define PING printf("ping \n")
+
+#define NUM_PING(i) printf("ping %d\n", i)
+
+static int counter = 0;
+
+#define INC_PING \
+        counter ++; \
+        printf("ping %d\n", counter) \
 
 #endif //PROJECT_BANANA_MACRO_H
