@@ -22,5 +22,11 @@
   "command": "/usr/bin/gcc -g -std=gnu11 -o CMakeFiles/Project_Banana.dir/game.c.o -c /home/nathaan/Documents/banana/Project-Banana/game.c",
   "file": "/home/nathaan/Documents/banana/Project-Banana/game.c",
   "output": "CMakeFiles/Project_Banana.dir/game.c.o"
+},
+{
+  "directory": "/home/nathaan/Documents/banana/Project-Banana/build",
+  "command": "/usr/bin/gcc -g -std=gnu11 -o CMakeFiles/Project_Banana.dir/terminal.c.o -c /home/nathaan/Documents/banana/Project-Banana/terminal.c",
+  "file": "/home/nathaan/Documents/banana/Project-Banana/terminal.c",
+  "output": "CMakeFiles/Project_Banana.dir/terminal.c.o"
 }
 ]

@@ -6,10 +6,17 @@
 #include "world.h"
 #include "entities.h"
 #include "macro.h"
+#include "terminal.h"
 
-void creatures_turn(World_stats* world){
+void creatures_turn(World_stats* world, Cursor* cursor){
     int n = world->creatures->last_index;
     FOR_LOOP(i, 0, n, 1){
+        clear();
+        free_world_map(world);
+        world_map_init(world, world->map.length, world->map.width);
+        fill_world_map(world);
+        print_world_map(*world, cursor);
+        getch();
         if (i< 0){
             break;
         }
@@ -39,16 +46,14 @@ void creatures_turn(World_stats* world){
 }
 
 
-void game_loop(World_stats *world) {
+void game_loop(World_stats *world, Cursor* cursor) {
     while (world->game) {
-        printf("entities : %d\n", world->entities_list->alive);
-        printf("creatures : %d\n", world->creatures->alive);
-        printf("foods : %d\n", world->foods->alive);
-        creatures_turn(world);
+        
+        creatures_turn(world, cursor);
+        
         if (world->creatures->alive <=0 || world->foods->alive <= 0){
             world->game = 0;
         }
-        
     }
     //PING;
     //print_entity_value(*world->creatures->entity_list[0], CONSUMED_FOOD);

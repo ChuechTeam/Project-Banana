@@ -1,6 +1,11 @@
 
 faire la reproduction
 
+faire le graphisme basique
+->contour
+
+refaire les fonctions du type waiting, commentaty, tout ce qui est dans terminal.c qui n'est pas adapté à ncurses
+
 
 fiare une struct pour les couples ?
 faire un append, pop, etc

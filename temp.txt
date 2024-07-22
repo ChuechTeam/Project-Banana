@@ -31,3 +31,69 @@ int insert_Entity_to_list(Entity_list* list, Entity* entity){
 
 #define FORWHILE(i, start, end, step) \
     for ((i) = (start); (step) > 0 ? (i)x < (end) : (i) > (end); (i) += (step))
+
+
+    /*
+        int alive = world.creatures->alive;
+        FOR_LOOP(i, 0, alive, 1){
+            kill_entity(&world, world.creatures->entity_list[i]);
+            i --;
+            alive --;
+        }*/
+
+
+
+// Supposée définition de clear_attributes
+void clear_attributes() {
+    attroff(A_BOLD | A_UNDERLINE | A_REVERSE);
+    for (int i = 1; i <= 8; ++i) {
+        attroff(COLOR_PAIR(i));
+    }
+}
+
+// Fonction drawText
+void drawText(int y, int x, char* str, int color_pair) {
+    clear_attributes();
+    attron(COLOR_PAIR(color_pair));
+    mvprintw(y, x, "%s", str);
+    refresh(); // Rafraîchir l'écran pour afficher immédiatement les changements
+}
+
+int main() {
+    // Initialiser ncurses
+    initscr();                // Commence une session ncurses
+    cbreak();                 // Désactiver la mise en mémoire tampon de ligne
+    noecho();                 // Ne pas afficher les caractères saisis
+    keypad(stdscr, TRUE);     // Activer les touches spéciales comme F1, F2, flèches, etc.
+
+    // Vérifier si le terminal supporte les couleurs
+    if (has_colors() == FALSE) {
+        endwin();             // Restaurer le terminal à son état normal
+        printf("Votre terminal ne supporte pas les couleurs.\n");
+        exit(1);
+    }
+
+    // Initialiser les couleurs
+    start_color();
+    
+    // Définir les paires de couleurs
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(4, COLOR_BLUE, COLOR_BLACK);
+    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(6, COLOR_CYAN, COLOR_BLACK);
+    init_pair(7, COLOR_WHITE, COLOR_BLACK);
+
+    // Utiliser drawText pour afficher du texte coloré
+    drawText(5, 10, "Bonjour, ncurses!", 1); // Texte rouge
+    drawText(6, 10, "Ceci est du texte vert.", 2); // Texte vert
+    drawText(7, 10, "Et ici du texte bleu.", 4); // Texte bleu
+
+    // Attendre une touche pour quitter
+    getch();
+    
+    // Terminer ncurses
+    endwin();
+    return 0;
+}

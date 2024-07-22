@@ -5,6 +5,8 @@
 #ifndef PROJECT_BANANA_WORLD_H
 #define PROJECT_BANANA_WORLD_H
 
+#include "terminal.h"
+
 
 typedef struct{
     int length;
@@ -22,6 +24,7 @@ typedef struct World_stats{
 
     //map
     Map map;
+    int** world;
 
     int game;
 
@@ -31,6 +34,8 @@ typedef struct World_stats{
 
 } World_stats;
 
+void world_map_init(World_stats* world, int map_length, int map_width);
+
 void world_init(World_stats* world, int map_length, int map_width, int size_entity_list);
 
 
@@ -38,5 +43,12 @@ void sort_entities_by_type(World_stats* world);
 
 void print_world_lists(World_stats world);
 
+void fill_world_map(World_stats* world);
+
+void free_world_list(World_stats* world);
+
+void free_world_map(World_stats* world);
+
+void print_world_map(World_stats world, Cursor* cursor);
 
 #endif //PROJECT_BANANA_WORLD_H

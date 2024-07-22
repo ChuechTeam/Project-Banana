@@ -284,11 +284,3 @@ void free_entity(World_stats* world, Entity* entity){
     free(world->entities_list->entity_list[entity->index]);
 }
 
-void free_world_list(World_stats* world){
-    for (int i =0 ; i< world->entities_list->last_index;i++){
-        free(world->entities_list->entity_list[i]);
-    }
-    free(world->entities_list);
-    free(world->creatures);
-    free(world->foods);
-}
