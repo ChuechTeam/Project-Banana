@@ -42,16 +42,16 @@ int main() {
     init_pair(7, COLOR_WHITE, COLOR_BLACK);
 
 
-    int map_length = 10;
-    int map_width = 10;
+    int map_length = 3;
+    int map_width = 3;
 
 
     World_stats world;
     Cursor cursor;
     cursor_init(&cursor);
     world_init(&world, map_length, map_width, 10);
-    fill_list(&world, world.creatures, 2, CREATURE);
-    fill_list(&world, world.entities_list, 7, FOOD);
+    fill_list(&world, world.creatures, 1, CREATURE);
+    fill_list(&world, world.creatures, 2, FOOD);
     random_position_list(world.map, world.entities_list);
 
     game_loop(&world, &cursor);

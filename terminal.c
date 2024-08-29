@@ -170,15 +170,30 @@ void draw_printf(Cursor *cursor, const char *format, ...) {
 }
 
 void print_rect(int length, int width, int color_pair){
+    int num = 1;
     for (int i = 0;i<length; i++){
+        char c_i = '0' + i;
+        //drawText(i, 1, &c_i, color_pair);
         for (int j = 0; j<width; j++){
-            if (j== 0 || j == width - 1){
-                drawText(i, j, "-", color_pair);
+            char c_j = '0' + j;
+            if (j == 0 || j == width - 1){
+                if(num){
+                    drawText(i, j, &c_i, color_pair);
+                }
+                else{
+                    drawText(i, j, "-", color_pair);
+                }  
             }
-            if (i == 0 || i == length-1){
-                drawText(i, j, "|", color_pair);
+            if (i == 0 || i == length - 1){
+                if(num){
+                    drawText(i, j, &c_j, color_pair);
+                }
+                else{
+                    drawText(i, j, "|", color_pair);
+                }   
             }
         
         }
     }
+    getch();
 }

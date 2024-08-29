@@ -222,8 +222,8 @@ void print_entity(Entity entity){
 }
 
 void random_position_entity(Map map, Entity* entity){
-    entity->x = rand()% (map.length-1);
-    entity->y = rand()% (map.width-1);
+    entity->x = rand()% (map.length);
+    entity->y = rand()% (map.width);
 }
 
 void random_position_list(Map map, Entity_list* list){

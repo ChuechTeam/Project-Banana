@@ -4,44 +4,36 @@
 
 #include "game.h"
 #include "world.h"
-#include "entities.h"
+#include "entities.h"  
 #include "macro.h"
 #include "terminal.h"
 
 void creatures_turn(World_stats* world, Cursor* cursor){
-    int n = world->creatures->last_index;
-    FOR_LOOP(i, 0, n, 1){
+    for (int i =0; i<world->creatures->last_index;){
         clear();
-        free_world_map(world);
-        world_map_init(world, world->map.length, world->map.width);
-        fill_world_map(world);
-        print_world_map(*world, cursor);
+        print_world_entities(*world, cursor);
+        draw_printf(cursor, "yes");
         getch();
-        if (i< 0){
-            break;
-        }
+        
         Entity *entity = world->creatures->entity_list[i];
         if (entity->alive) {
             entity->Creature.goal = closest_entity(entity, world->foods);
             moving_to(entity, entity->Creature.goal->x, entity->Creature.goal->y);
             if (same_coordinates(entity, entity->Creature.goal)) {
-                if (entity->Creature.goal->type == FOOD) {
+                if (entity->Creature.goal->type == FOOD && entity->Creature.goal->alive) {
                     entity->Creature.consumed_food++;
-                    kill_entity(world, entity->Creature.goal);
-                    i--;
-                    n--;
+                    entity->Creature.goal->alive = 0;
+                    world->foods->alive --;
+                    world->entities_list->alive --;
                 }
             }
         
             if(entity->Creature.energy <=0){
-                kill_entity(world, entity);
-                i--;
-                n--;
-
+                entity->alive = 0;
+                world->creatures->alive --;
+                world->entities_list->alive --;
             }
-        }
-
-        
+        }   
     }
 }
 
