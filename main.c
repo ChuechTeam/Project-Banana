@@ -16,32 +16,7 @@ int main() {
 
     setlocale(LC_ALL, "");
 
-    // Initialiser ncurses
-    initscr();                // Commence une session ncurses
-    cbreak();                 // Désactiver la mise en mémoire tampon de ligne
-    noecho();                 // Ne pas afficher les caractères saisis
-    keypad(stdscr, TRUE);     // Activer les touches spéciales comme F1, F2, flèches, etc.
-
-    // Vérifier si le terminal supporte les couleurs
-    if (has_colors() == FALSE) {
-        endwin();             // Restaurer le terminal à son état normal
-        printf("Votre terminal ne supporte pas les couleurs.\n");
-        exit(1);
-    }
-
-    // Initialiser les couleurs
-    start_color();
     
-    // Définir les paires de couleurs
-    init_pair(1, COLOR_RED, COLOR_BLACK);
-    init_pair(2, COLOR_GREEN, COLOR_BLACK);
-    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(4, COLOR_BLUE, COLOR_BLACK);
-    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
-    init_pair(6, COLOR_CYAN, COLOR_BLACK);
-    init_pair(7, COLOR_WHITE, COLOR_BLACK);
-
-
     int map_length = 3;
     int map_width = 3;
 
@@ -49,9 +24,11 @@ int main() {
     World_stats world;
     Cursor cursor;
     cursor_init(&cursor);
+    clear_all(&cursor);
+    
     world_init(&world, map_length, map_width, 10);
-    fill_list(&world, world.creatures, 1, CREATURE);
-    fill_list(&world, world.creatures, 2, FOOD);
+    fill_list(&world, world.creatures, 2, CREATURE);
+    fill_list(&world, world.foods, 5, FOOD);
     random_position_list(world.map, world.entities_list);
 
     game_loop(&world, &cursor);
@@ -90,6 +67,5 @@ int main() {
 
     
     // Terminer ncurses
-    endwin();
     return 0;
 }

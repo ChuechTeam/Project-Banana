@@ -5,7 +5,6 @@
 #ifndef PROJECT_BANANA_TERMINAL_H
 #define PROJECT_BANANA_TERMINAL_H
 #include <stdio.h>
-#include <ncurses.h>
 
 typedef struct{
     short colors_pair[20][2];
@@ -20,19 +19,17 @@ typedef struct{
     Colors colors;
 }Cursor;
 
-
+int setBlockingFD(int fileDescriptor, int blocking);
+void discardInput(void);
 void cursor_init(Cursor* cursor);
 void clear_all(Cursor* cursor);
 void clear_part(int line, int column);
-void cursor_move(char direction, int num);
+void cursor_move(Cursor* cursor, char direction, int num);
+void cursor_move_to(Cursor* cursor, int x, int y);
 void flush_input_buffer();
 int getint();
 void commentary(char tab[]);
 void waiting();
 void set_color(Cursor *cursor, char* code);
-short get_color_pair(Cursor *cursor);
-void clear_attributes();
-void drawText(int x, int y, char* str, int color_pair);
-void draw_printf(Cursor* cursor, const char *format, ...);
-void print_rect(int length, int width, int color_pair);
+void draw_rect(Cursor* cursor, int length, int width);
 #endif //PROJECT_BANANA_TERMINAL_H

@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "hash_map": "c",
+        "*.tcc": "c",
+        "deque": "c",
+        "list": "c",
+        "string": "c",
+        "unordered_map": "c",
+        "vector": "c",
+        "format": "c"
+    }
+}

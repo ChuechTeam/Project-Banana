@@ -39,6 +39,8 @@ void sort_entities_by_type(World_stats* world);
 
 void print_world_lists(World_stats world);
 
-void print_world_entities(World_stats world, Cursor* cursor);
+void draw_entity(int type);
+
+void draw_world_entities(World_stats world, Cursor* cursor);
 
 #endif //PROJECT_BANANA_WORLD_H

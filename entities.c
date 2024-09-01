@@ -58,6 +58,9 @@ int fill_list(World_stats* world, Entity_list* list, int number, int type) {
     if (number > list->capacity - list->last_index) {
         return OUT_OF_RANGE;
     }
+    if (type != list->type){
+        return WRONG_TYPE;
+    }
     for (int i = 0; i < number; i++) {
         Entity* entity = create_entity(type);
         insert_Entity_to_list(list, entity);
@@ -222,8 +225,8 @@ void print_entity(Entity entity){
 }
 
 void random_position_entity(Map map, Entity* entity){
-    entity->x = rand()% (map.length);
-    entity->y = rand()% (map.width);
+    entity->x = 1 + rand()% (map.length);
+    entity->y = 1 + rand()% (map.width);
 }
 
 void random_position_list(Map map, Entity_list* list){

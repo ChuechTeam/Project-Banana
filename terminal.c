@@ -3,16 +3,50 @@
 #include <string.h>
 #include <time.h>
 #include <stdarg.h>
+#include <poll.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+
 #include "terminal.h"
 #include "macro.h"
-#include <ncurses.h>
 
+/* 0: success -1: error */
+int setBlockingFD(int fileDescriptor, int blocking) {
+    int r = fcntl(fileDescriptor, F_GETFL);
+    if (r == -1) {
+        perror("fcntl(F_GETFL)");
+        return -1;
+    }
+    int flags = (blocking ? r & ~O_NONBLOCK : r | O_NONBLOCK);
+    r = fcntl(fileDescriptor, F_SETFL, flags);
+    if (r == -1) {
+        perror("fcntl(F_SETFL)");
+        return -1;
+    }
+    return 0;
+}
 
+void discardInput(void) {
+    setBlockingFD(STDIN_FILENO, 0);
+    for (;;) {
+        int c = fgetc(stdin);
+        if (c == EOF) {
+            if (errno == EAGAIN) {
+                //vide
+            }
+            break;
+        } else {
+            //pas vide
+        }
+    }
+    setBlockingFD(STDIN_FILENO, 1);
+}
 
 
 void cursor_init(Cursor* cursor){
-    cursor->x = 0;
-    cursor->y = 0;
+    cursor->x = 1;
+    cursor->y = 1;
 
     cursor->colors.color_num = 7;
     set_color(cursor, C_WHT);
@@ -21,9 +55,9 @@ void cursor_init(Cursor* cursor){
 
 // efface tout le terminal visible
 void clear_all(Cursor *d) {
-    erase();
-    d->y = 0;
-    d->x = 0;
+    printf("\033[0;0H\033[J");
+    d->y = 1;
+    d->x = 1;
 
 }
 
@@ -34,8 +68,23 @@ void clear_part(int line, int column) {
 
 //déplace le curseur dans la direction et la valeur indiquée
 // A: up, B: down, C: forward, D: backward
-void cursor_move(char direction, int num) {
+void cursor_move(Cursor* cursor, char direction, int num) {
     printf("\033[%d%c", num, direction);
+    switch (direction){
+        case 'A':
+            cursor->y -= num;
+            break;
+        case 'B':
+            cursor->y += num;
+            break;
+        case 'C':
+    }
+}
+
+void cursor_move_to(Cursor* cursor, int x, int y){
+    printf("\033[%d;%dH", y, x);
+    cursor->x=x;
+    cursor->y=y;
 }
 
 // Va vider le "buffer" pour éviter les fuites de donnée quand on fait des getchar notamment
@@ -81,119 +130,36 @@ void set_color(Cursor *cursor, char* code) {
     }
 }
 
-short get_color_pair(Cursor *cursor) {
-    if (cursor->colors.color_num == 0) {
-        cursor->colors.colors_pair[0][0] = cursor->foreground;
-        cursor->colors.colors_pair[0][1] = cursor->background;
-        init_pair(8, cursor->foreground, cursor->background);
-
-        cursor->colors.color_num++;
-        return 8;
-    }
-    for (int i = 0; i < cursor->colors.color_num; i++) {
-        if (cursor->colors.colors_pair[i][0] == cursor->foreground &&
-            cursor->colors.colors_pair[i][1] == cursor->background) {
-            return i + 8;
-        }
-    }
-    cursor->colors.colors_pair[cursor->colors.color_num][0] = cursor->foreground;
-    cursor->colors.colors_pair[cursor->colors.color_num][1] = cursor->background;
-    init_pair(cursor->colors.color_num + 8, cursor->foreground, cursor->background);
-    cursor->colors.color_num++;
-    return cursor->colors.color_num + 8;
-
-}
-
-void clear_attributes() {
-    // Get the current attributes and color pair at the cursor position
-    attr_t attrs;  // Variable to store the current attributes
-    short pair;    // Variable to store the current color pair
-    attr_get(&attrs, &pair, NULL);  // Retrieve attributes and color pair
-
-    // Turn off all attributes
-    if (attrs != A_NORMAL) {  // If there are non-normal attributes
-        attroff(attrs);        // Turn off those attributes
-    }
-
-    // Turn off the color pair if it's active
-    if (pair != 0) {  // If a color pair is active
-        attroff(COLOR_PAIR(pair));  // Turn off that color pair
-    }
-}
-
-
-void drawText(int x, int y, char* str, int color_pair){
-    clear_attributes();
-    attron(COLOR_PAIR(color_pair));
-    mvprintw(y,x,"%s", str);
-
-
-}
-
-void draw_printf(Cursor *cursor, const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-
-    char buffer[200];
-    char ansi[2];
-    int j = 0;
-    vsnprintf(buffer, sizeof(buffer), format, args);
-    char *str = malloc(strlen(buffer));
-    for (int i = 0; i < strlen(buffer); i++) {
-        if (buffer[i] == '\033') {
-            drawText(cursor->x, cursor->y, str, get_color_pair(cursor));
-            ansi[0] = buffer[i + 2];
-            ansi[1] = buffer[i + 3];
-            set_color(cursor, ansi);
-            cursor->x += strlen(str);
-            free(str);
-            str = malloc(strlen(buffer));
-            j = 0;
-            i += 4;
-        } else if (buffer[i] == '\n') {
-            drawText(cursor->x, cursor->y, str, get_color_pair(cursor));
-            free(str);
-            str = malloc(strlen(buffer));
-            j = 0;
-            cursor->x = 0;
-            cursor->y += 1;
-        } else {
-            str[j] = buffer[i];
-            j++;
-        }
-    }
-    drawText(cursor->x, cursor->y, str, get_color_pair(cursor));
-    cursor->x += strlen(str);
-
-    free(str);
-    va_end(args);
-}
-
-void print_rect(int length, int width, int color_pair){
+void draw_rect(Cursor* cursor, int length, int width){
     int num = 1;
-    for (int i = 0;i<length; i++){
-        char c_i = '0' + i;
-        //drawText(i, 1, &c_i, color_pair);
-        for (int j = 0; j<width; j++){
-            char c_j = '0' + j;
-            if (j == 0 || j == width - 1){
-                if(num){
-                    drawText(i, j, &c_i, color_pair);
-                }
-                else{
-                    drawText(i, j, "-", color_pair);
-                }  
-            }
-            if (i == 0 || i == length - 1){
-                if(num){
-                    drawText(i, j, &c_j, color_pair);
-                }
-                else{
-                    drawText(i, j, "|", color_pair);
-                }   
-            }
-        
+    if (num){
+        for (int i = 0 ; i < width ; i++){
+            printf("%d", i);
+            cursor_move(cursor, 'C', length-2);
+            printf("%d\n", i);
+        }
+        cursor_move_to(cursor, cursor->x,cursor->y);
+        for (int j = 0; j < length; j++){
+            printf("%d", j);
+        }
+        cursor_move_to(cursor, cursor->x,cursor->y + width-1);
+        for (int j = 0; j < length; j++){
+            printf("%d", j);
         }
     }
-    getch();
+    else {
+        for (int i = 0 ; i < width ; i++){
+            printf("|");
+            cursor_move(cursor, 'C', length-2);
+            printf("|\n");
+        }
+        cursor_move_to(cursor, cursor->x,cursor->y);
+        for (int j = 0; j < length; j++){
+            printf("-");
+        }
+        cursor_move_to(cursor, cursor->x,cursor->y + width-1);
+        for (int j = 0; j < length; j++){
+            printf("-");
+        }
+    }
 }

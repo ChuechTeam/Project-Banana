@@ -3,9 +3,7 @@ project(Project_Banana C)
 
 set(CMAKE_C_STANDARD 11)
 
-find_package(Curses REQUIRED)
 
-include_directories(${CURSES_INCLUDE_DIR})
 
 add_executable(Project_Banana
         main.c entities.h entities.c macro.h

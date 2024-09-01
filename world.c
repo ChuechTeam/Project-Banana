@@ -9,6 +9,7 @@
 
 #include "entities.h"
 #include "terminal.h"
+#include "macro.h"
 
 
 
@@ -48,14 +49,26 @@ void sort_entities_by_type(World_stats* world){
     }
 }
 
+void draw_entity(int type){
+    switch (type)
+    {
+    case CREATURE:
+        printf("%s%s%s", C_RED, "\u25CF", C_WHT);
+        break;
+    case FOOD:
+        printf("%s%s%s", C_GRN, "\u25CF", C_WHT);
+        break;
+    default:
+        break;
+    }
+}
 
-
-void print_world_entities(World_stats world, Cursor* cursor){
-    print_rect(world.map.length+2, world.map.width+2, 3);
+void draw_world_entities(World_stats world, Cursor* cursor){
     for (int i = 0; i< world.entities_list->last_index;i++){
         Entity* entity = world.entities_list->entity_list[i];
         if (entity->alive){
-            drawText(entity->x + 1, entity->y + 1, "\u25CF", entity->type);
+            cursor_move_to(cursor, entity->x+1, entity->y+1); //+1 because of the rectangle around the map
+            draw_entity(entity->type);
         }
     }
     cursor->x = 0;

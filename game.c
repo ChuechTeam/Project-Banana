@@ -10,11 +10,19 @@
 
 void creatures_turn(World_stats* world, Cursor* cursor){
     for (int i =0; i<world->creatures->last_index;){
-        clear();
-        print_world_entities(*world, cursor);
-        draw_printf(cursor, "yes");
-        getch();
+        clear_all(cursor);
+        draw_rect(cursor, world->map.length+2, world->map.width+2);
+        draw_world_entities(*world, cursor);
         
+
+        cursor_move_to(cursor, 0, world->map.width + 4);
+        print_entity_value(*world->creatures->entity_list[0], COORDINATES);
+        waiting();
+
+        if (world->foods->alive <= 0){
+            return;
+        }
+
         Entity *entity = world->creatures->entity_list[i];
         if (entity->alive) {
             entity->Creature.goal = closest_entity(entity, world->foods);
@@ -42,7 +50,7 @@ void game_loop(World_stats *world, Cursor* cursor) {
     while (world->game) {
         
         creatures_turn(world, cursor);
-        
+        waiting();
         if (world->creatures->alive <=0 || world->foods->alive <= 0){
             world->game = 0;
         }
