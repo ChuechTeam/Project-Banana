@@ -8,17 +8,18 @@
 #include "game.h"
 #include "macro.h"
 #include "terminal.h"
-
+#include "graphic.h"
 
 
 int main() {
+    printf("\n\n\n\n\n\n\n\n\n");
     srand(time(NULL));
 
     setlocale(LC_ALL, "");
 
     
-    int map_length = 3;
-    int map_width = 3;
+    int map_height = 10;
+    int map_width = 10;
 
 
     World_stats world;
@@ -26,10 +27,15 @@ int main() {
     cursor_init(&cursor);
     clear_all(&cursor);
     
-    world_init(&world, map_length, map_width, 10);
-    fill_list(&world, world.creatures, 2, CREATURE);
-    fill_list(&world, world.foods, 5, FOOD);
-    random_position_list(world.map, world.entities_list);
+    world_init(&world, map_height, map_width, 10);
+
+    game_init(&world, 10, 1);
+
+    print_list(world.reproduce);
+    waiting();
+
+
+
 
     game_loop(&world, &cursor);
 
@@ -60,12 +66,17 @@ int main() {
         game_loop(&world);
         free_world_list(&world);
     }
+
     */
 
 
 
-
-    
+    print_board(&world, &cursor);
+    waiting();
+    PING;
+    print_entitites_list_value(world.creatures, &cursor, CONSUMED_FOOD);
+    print_list(world.reproduce);
+    waiting();
     // Terminer ncurses
     return 0;
 }

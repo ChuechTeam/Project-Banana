@@ -10,6 +10,7 @@
 #elif defined(__linux__)
 
 #endif
+
 enum error_type{SUCCESS, OUT_OF_RANGE, WRONG_TYPE};
 
 #define FOR_LOOP(i, start, end, step) \

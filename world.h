@@ -9,7 +9,9 @@
 
 
 typedef struct{
-    int length;
+    int x;
+    int y;
+    int height;
     int width;
 }Map;
 
@@ -24,14 +26,16 @@ typedef struct World_stats{
 
     //map
     Map map;
+    int food;
 
-    int game;
+    int game;//simulation on/off
+
 
     //next gen
     struct Entity_list* reproduce;
 
 
-} World_stats;
+} World_stats, *pWorld_stats;
 
 void world_init(World_stats* world, int map_length, int map_width, int size_entity_list);
 

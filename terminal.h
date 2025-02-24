@@ -32,4 +32,5 @@ void commentary(char tab[]);
 void waiting();
 void set_color(Cursor *cursor, char* code);
 void draw_rect(Cursor* cursor, int length, int width);
+void terminal_sleep(int ms);
 #endif //PROJECT_BANANA_TERMINAL_H

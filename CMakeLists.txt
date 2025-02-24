@@ -12,7 +12,10 @@ add_executable(Project_Banana
         world.c
         game.h
         game.c
-        terminal.c)
+        terminal.c
+        graphic.h
+        graphic.h
+        graphic.c)
 
 
 

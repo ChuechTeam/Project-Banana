@@ -20,7 +20,8 @@ void entity_init(Entity *entity) {
         case CREATURE:
             entity->Creature.goal=NULL;
             entity->Creature.speed = 1.0; // Setting the speed of the creature to 1.0
-            entity->Creature.energy = 5.0;
+            entity->Creature.base_energy = 5.0;
+            entity->Creature.energy = entity->Creature.base_energy; // Setting the energy of the creature to 5.0
             entity->Creature.consumed_food = 0; // Setting initial consumed food to 0
             break;
         case FOOD:
@@ -64,7 +65,7 @@ int fill_list(World_stats* world, Entity_list* list, int number, int type) {
     for (int i = 0; i < number; i++) {
         Entity* entity = create_entity(type);
         insert_Entity_to_list(list, entity);
-        if(list->type != DEFAULT){
+        if(list->type != DEFAULT && list != world->reproduce){
             world->entities_list->entity_list[world->entities_list->last_index] = entity;
             entity->index = world->entities_list->last_index;
             world->entities_list->alive++;
@@ -148,18 +149,22 @@ Entity* closest_entity(Entity* entity, Entity_list* list){
     if (list->alive == 0){
         return entity;
     }
-    if (list->entity_list[0]->alive == 0){
-        return entity;
-    }
-    float closest = distance_to(entity, list->entity_list[0]->x, list->entity_list[0]->y);
+    float closest = 0;
     int index = 0;
-    for (int i = 1; i < list->last_index;i++){
-        if(list->entity_list[i]->alive == 0){
-            break;
-        }
-        else if(closest > distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y)){
+    for(int i = 0; i < list->last_index;i++){
+        if(list->entity_list[i]->alive){
             closest = distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y);
             index = i;
+            break;
+        }
+    }
+
+    for (int i = index+1; i < list->last_index;i++){
+        if(list->entity_list[i]->alive){
+            if(closest > distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y)){
+                closest = distance_to(entity, list->entity_list[i]->x, list->entity_list[i]->y);
+                index = i;
+            }
         }
     }
     return list->entity_list[index];
@@ -168,39 +173,41 @@ Entity* closest_entity(Entity* entity, Entity_list* list){
 //print the value you want, see the enum entity_value to know what to write for type
 //exemple : print_entity_value(entity, COORDINATES) => print x and y coordinates
 void print_entity_value(Entity entity, int type) {
+    int show_type = 0;
     switch (type) {
         case TYPE:
-            printf("TYPE: %d\n", entity.type);
+            printf("%s%d\n", (show_type ? "TYPE: " : ""), entity.type);
             break;
         case INDEX:
-            printf("INDEX: %d\n", entity.index);
+            printf("%s%d\n", (show_type ? "INDEX: " : ""), entity.index);
             break;
         case SUB_INDEX:
-            printf("SUB_INDEX: %d\n", entity.sub_index);
+            printf("%s%d\n", (show_type ? "SUB_INDEX: " : ""), entity.sub_index);
             break;
         case ALIVE:
-            printf("ALIVE: %d\n", entity.alive);
+            printf("%s%d\n", (show_type ? "ALIVE: " : ""), entity.alive);
             break;
         case COORDINATES:
-            printf("COORDINATES: x:%d y:%d\n", entity.x, entity.y);
+            printf("%sx:%d y:%d\n", (show_type ? "COORDINATES: " : ""), entity.x, entity.y);
             break;
         case GOAL:
-            if (entity.Creature.goal==NULL){
+            if (entity.Creature.goal == NULL) {
                 break;
             }
-            printf("GOAL COORDINATES: x:%d y:%d\n", entity.Creature.goal->x, entity.Creature.goal->y);
+            printf("%sx:%d y:%d\n", (show_type ? "GOAL COORDINATES: " : ""), entity.Creature.goal->x, entity.Creature.goal->y);
             break;
         case SPEED:
-            printf("SPEED: %0.2f\n", entity.Creature.speed);
+            printf("%s%0.2f\n", (show_type ? "SPEED: " : ""), entity.Creature.speed);
             break;
         case ENERGY:
-            printf("ENERGY: %0.2f\n", entity.Creature.energy);
+            printf("%s%0.2f\n", (show_type ? "ENERGY: " : ""), entity.Creature.energy);
             break;
         case CONSUMED_FOOD:
-            printf("CONSUMED_FOOD: %d\n", entity.Creature.consumed_food);
+            printf("%s%d\n", (show_type ? "CONSUMED_FOOD: " : ""), entity.Creature.consumed_food);
             break;
     }
 }
+
 
 void print_entity(Entity entity){
     printf("----------------------\n");
@@ -225,8 +232,8 @@ void print_entity(Entity entity){
 }
 
 void random_position_entity(Map map, Entity* entity){
-    entity->x = 1 + rand()% (map.length);
-    entity->y = 1 + rand()% (map.width);
+    entity->x = rand()% (map.width);
+    entity->y = rand()% (map.height);
 }
 
 void random_position_list(Map map, Entity_list* list){
@@ -238,6 +245,14 @@ void random_position_list(Map map, Entity_list* list){
 void print_entities_list(Entity_list* list){
     for (int i =0;i<list->last_index;i++){
         print_entity(*list->entity_list[i]);
+    }
+}
+
+void print_entitites_list_value(Entity_list* list, Cursor* cursor, int type){
+    cursor_move_to(cursor, cursor->x, cursor->y);
+    for (int i = 0;i<list->last_index;i++){
+        printf("%d : ", i);
+        print_entity_value(*list->entity_list[i], type);
     }
 }
 
@@ -287,3 +302,15 @@ void free_entity(World_stats* world, Entity* entity){
     free(world->entities_list->entity_list[entity->index]);
 }
 
+void empty_list(Entity_list* list){
+    for (int i = 0; i<list->last_index;i++){
+        free(list->entity_list[i]);
+    }
+    list->last_index = 0;
+    list->alive = 0;
+}
+
+void mutation(Entity* entity){
+    entity->Creature.speed += (rand()%3-1);
+    entity->Creature.base_energy += (rand()%3-1);
+}

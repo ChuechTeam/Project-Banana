@@ -14,10 +14,9 @@ enum entityList_type {
 };
 
 
-enum entity_values{
+enum entity_values {
     TYPE, INDEX, SUB_INDEX, ALIVE, COORDINATES, GOAL, SPEED, ENERGY, CONSUMED_FOOD
 };
-
 
 
 typedef struct Entity {
@@ -32,8 +31,9 @@ typedef struct Entity {
 
     union {
         struct {
-            struct Entity* goal;
+            struct Entity *goal;
             double speed;
+            double base_energy;
             double energy;
             int consumed_food;
         } Creature;
@@ -55,41 +55,43 @@ typedef struct Entity_list {
 } Entity_list;
 
 
-
-
-
 void entity_init(Entity *entity);
 
 Entity *create_entity(int type);
 
-void list_init(Entity_list* list, int size);
+void list_init(Entity_list *list, int size);
 
-int fill_list(World_stats * world, Entity_list* list, int number, int type);
+int fill_list(World_stats *world, Entity_list *list, int number, int type);
 
-int insert_Entity_to_list(Entity_list* list, Entity* entity);
+int insert_Entity_to_list(Entity_list *list, Entity *entity);
 
-void print_list(Entity_list* list);
+void print_list(Entity_list *list);
 
 void moving_to(Entity *entity, int x, int y);
 
-float distance_to(Entity* entity, int x, int y);
+float distance_to(Entity *entity, int x, int y);
 
-Entity* closest_entity(Entity* entity, Entity_list* list);
+Entity *closest_entity(Entity *entity, Entity_list *list);
 
 void print_entity_value(Entity entity, int type);
 
 void print_entity(Entity entity);
 
-void random_position_entity(Map map, Entity* entity);
+void random_position_entity(Map map, Entity *entity);
 
-void random_position_list(Map map, Entity_list* list);
+void random_position_list(Map map, Entity_list *list);
 
-void print_entities_list(Entity_list* list);
+void print_entities_list(Entity_list *list);
 
-int same_coordinates(Entity* a, Entity* b);
+void print_entitites_list_value(Entity_list *list, Cursor *cursor, int type);
 
-void kill_entity(World_stats* world, Entity* entity);
+int same_coordinates(Entity *a, Entity *b);
 
+void kill_entity(World_stats *world, Entity *entity);
+
+void empty_list(Entity_list *list);
+
+void mutation(Entity* entity);
 
 
 #endif //PROJECT_BANANA_ENTITIES_H

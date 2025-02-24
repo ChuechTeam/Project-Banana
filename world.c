@@ -13,21 +13,28 @@
 
 
 
-void world_init(World_stats* world, int map_length, int map_width, int size_entity_list){
+void world_init(World_stats* world, int map_height, int map_width, int size_entity_list){
     world->entities_list = malloc(sizeof(Entity_list));
-    world->creatures = malloc(sizeof(Entity_list));
-    world->foods = malloc(sizeof(Entity_list));
-    world->reproduce = malloc(sizeof(Entity_list));
     list_init(world->entities_list, size_entity_list);
+
+    world->creatures = malloc(sizeof(Entity_list));
     list_init(world->creatures, size_entity_list);
     world->creatures->type = CREATURE;
+
+    world->foods = malloc(sizeof(Entity_list));
     list_init(world->foods, size_entity_list);
     world->foods->type = FOOD;
+
+    world->reproduce = malloc(sizeof(Entity_list));
     list_init(world->reproduce, size_entity_list);
     world->reproduce->type = CREATURE;
 
-    world->map.length=map_length;
+
+    world->map.x=10;
+    world->map.y=10;
+    world->map.height=map_height;
     world->map.width = map_width;
+    world->food=0;
 
 
     world->game = 1;
@@ -67,7 +74,7 @@ void draw_world_entities(World_stats world, Cursor* cursor){
     for (int i = 0; i< world.entities_list->last_index;i++){
         Entity* entity = world.entities_list->entity_list[i];
         if (entity->alive){
-            cursor_move_to(cursor, entity->x+1, entity->y+1); //+1 because of the rectangle around the map
+            cursor_move_to(cursor, entity->x+world.map.x, entity->y+world.map.y);
             draw_entity(entity->type);
         }
     }

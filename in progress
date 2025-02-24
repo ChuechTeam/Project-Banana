@@ -6,7 +6,7 @@ faire le graphisme basique
 
 refaire les fonctions du type waiting, commentaty, tout ce qui est dans terminal.c qui n'est pas adapté à ncurses
 
-
+faire une fonction pour remplacer le \n mais qui garde le x du curseur
 fiare une struct pour les couples ?
 faire un append, pop, etc
 

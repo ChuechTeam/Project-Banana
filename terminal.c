@@ -1,50 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <time.h>
-#include <stdarg.h>
-#include <poll.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
+//#include <time.h>
+//#include <stdarg.h>
+//#include <poll.h>
+//#include <unistd.h>
+//#include <fcntl.h>
+//#include <errno.h>
 
 #include "terminal.h"
 #include "macro.h"
 
-/* 0: success -1: error */
-int setBlockingFD(int fileDescriptor, int blocking) {
-    int r = fcntl(fileDescriptor, F_GETFL);
-    if (r == -1) {
-        perror("fcntl(F_GETFL)");
-        return -1;
-    }
-    int flags = (blocking ? r & ~O_NONBLOCK : r | O_NONBLOCK);
-    r = fcntl(fileDescriptor, F_SETFL, flags);
-    if (r == -1) {
-        perror("fcntl(F_SETFL)");
-        return -1;
-    }
-    return 0;
-}
+#ifdef _WIN32
+#include <windows.h>
+#elif defined(__linux__)
 
-void discardInput(void) {
-    setBlockingFD(STDIN_FILENO, 0);
-    for (;;) {
-        int c = fgetc(stdin);
-        if (c == EOF) {
-            if (errno == EAGAIN) {
-                //vide
-            }
-            break;
-        } else {
-            //pas vide
-        }
-    }
-    setBlockingFD(STDIN_FILENO, 1);
-}
+#include <unistd.h>
+
+#endif
+
+///* 0: success -1: error */
+//int setBlockingFD(int fileDescriptor, int blocking) {
+//    int r = fcntl(fileDescriptor, F_GETFL);
+//    if (r == -1) {
+//        perror("fcntl(F_GETFL)");
+//        return -1;
+//    }
+//    int flags = (blocking ? r & ~O_NONBLOCK : r | O_NONBLOCK);
+//    r = fcntl(fileDescriptor, F_SETFL, flags);
+//    if (r == -1) {
+//        perror("fcntl(F_SETFL)");
+//        return -1;
+//    }
+//    return 0;
+//}
+//
+//void discardInput(void) {
+//    setBlockingFD(STDIN_FILENO, 0);
+//    for (;;) {
+//        int c = fgetc(stdin);
+//        if (c == EOF) {
+//            if (errno == EAGAIN) {
+//                //vide
+//            }
+//            break;
+//        } else {
+//            //pas vide
+//        }
+//    }
+//    setBlockingFD(STDIN_FILENO, 1);
+//}
 
 
-void cursor_init(Cursor* cursor){
+void cursor_init(Cursor *cursor) {
     cursor->x = 1;
     cursor->y = 1;
 
@@ -67,24 +75,28 @@ void clear_part(int line, int column) {
 }
 
 //déplace le curseur dans la direction et la valeur indiquée
-// A: up, B: down, C: forward, D: backward
-void cursor_move(Cursor* cursor, char direction, int num) {
+// N: up, S: down, E: forward, W: backward
+void cursor_move(Cursor *cursor, char direction, int num) {
     printf("\033[%d%c", num, direction);
-    switch (direction){
-        case 'A':
+    switch (direction) {
+        case 'N':
             cursor->y -= num;
             break;
-        case 'B':
+        case 'S':
             cursor->y += num;
             break;
-        case 'C':
+        case 'E':
+            cursor->x += num;
+            break;
+        case 'W':
+            cursor->x -= num;
     }
 }
 
-void cursor_move_to(Cursor* cursor, int x, int y){
+void cursor_move_to(Cursor *cursor, int x, int y) {
     printf("\033[%d;%dH", y, x);
-    cursor->x=x;
-    cursor->y=y;
+    cursor->x = x;
+    cursor->y = y;
 }
 
 // Va vider le "buffer" pour éviter les fuites de donnée quand on fait des getchar notamment
@@ -120,46 +132,46 @@ void waiting() {
 
 
 //it takes the ansi code for text color, which is the numbers part of an ANSI code, exemple \033[43 it takes "43"
-void set_color(Cursor *cursor, char* code) {
-    if (code[0]=='\033' && code[4] == 'm'){
+void set_color(Cursor *cursor, char *code) {
+    if ((code[0] == '\033'|| code[0] =='\x1b') && code[4] == 'm') {
         if (code[2] == '3') {
             cursor->foreground = code[3] - '0';
         } else if (code[2] == '4') {
             cursor->background = code[3] - '0';
         }
+        printf("%s", code);
+    }
+
+}
+
+void draw_rect(Cursor *cursor, int length, int width) {
+    int num = 0;
+    char tab[] = {'@', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+                  'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    int x = cursor->x;
+    int y = cursor->y;
+    //lines
+    for (int i = 0; i < width; i++) {
+        printf("%c", tab[num + num * i]);
+        cursor_move(cursor, 'C', length - 2);
+        printf("%c\n",  tab[num + num * i]);
+    }
+
+    //collumns
+    cursor_move_to(cursor, x, y);
+    for (int j = 0; j < length; j++) {
+        printf("%c",  tab[num + num * j]);
+    }
+    cursor_move_to(cursor, x, y + width - 1);
+    for (int j = 0; j < length; j++) {
+        printf("%c",  tab[num + num * j]);
     }
 }
 
-void draw_rect(Cursor* cursor, int length, int width){
-    int num = 1;
-    if (num){
-        for (int i = 0 ; i < width ; i++){
-            printf("%d", i);
-            cursor_move(cursor, 'C', length-2);
-            printf("%d\n", i);
-        }
-        cursor_move_to(cursor, cursor->x,cursor->y);
-        for (int j = 0; j < length; j++){
-            printf("%d", j);
-        }
-        cursor_move_to(cursor, cursor->x,cursor->y + width-1);
-        for (int j = 0; j < length; j++){
-            printf("%d", j);
-        }
-    }
-    else {
-        for (int i = 0 ; i < width ; i++){
-            printf("|");
-            cursor_move(cursor, 'C', length-2);
-            printf("|\n");
-        }
-        cursor_move_to(cursor, cursor->x,cursor->y);
-        for (int j = 0; j < length; j++){
-            printf("-");
-        }
-        cursor_move_to(cursor, cursor->x,cursor->y + width-1);
-        for (int j = 0; j < length; j++){
-            printf("-");
-        }
-    }
+void terminal_sleep(int ms) {
+#ifdef _WIN32
+    Sleep(ms);
+#elif defined(__linux__)
+    usleep(1000 * ms);
+#endif
 }
