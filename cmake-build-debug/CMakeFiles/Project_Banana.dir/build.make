@@ -70,44 +70,44 @@ CMakeFiles/Project_Banana.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project_Banana.dir/main.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/c/Users/cacac/CLionProjects/Project-Banana/main.c -o CMakeFiles/Project_Banana.dir/main.c.s
 
-CMakeFiles/Project_Banana.dir/creature.c.o: CMakeFiles/Project_Banana.dir/flags.make
-CMakeFiles/Project_Banana.dir/creature.c.o: ../creature.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Project_Banana.dir/creature.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Project_Banana.dir/creature.c.o   -c /mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.c
+CMakeFiles/Project_Banana.dir/entities.c.o: CMakeFiles/Project_Banana.dir/flags.make
+CMakeFiles/Project_Banana.dir/entities.c.o: ../entities.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/Project_Banana.dir/entities.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Project_Banana.dir/entities.c.o   -c /mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.c
 
-CMakeFiles/Project_Banana.dir/creature.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project_Banana.dir/creature.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.c > CMakeFiles/Project_Banana.dir/creature.c.i
+CMakeFiles/Project_Banana.dir/entities.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project_Banana.dir/entities.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.c > CMakeFiles/Project_Banana.dir/entities.c.i
 
-CMakeFiles/Project_Banana.dir/creature.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project_Banana.dir/creature.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.c -o CMakeFiles/Project_Banana.dir/creature.c.s
+CMakeFiles/Project_Banana.dir/entities.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project_Banana.dir/entities.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.c -o CMakeFiles/Project_Banana.dir/entities.c.s
 
-CMakeFiles/Project_Banana.dir/food.c.o: CMakeFiles/Project_Banana.dir/flags.make
-CMakeFiles/Project_Banana.dir/food.c.o: ../food.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Project_Banana.dir/food.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Project_Banana.dir/food.c.o   -c /mnt/c/Users/cacac/CLionProjects/Project-Banana/food.c
+CMakeFiles/Project_Banana.dir/world.c.o: CMakeFiles/Project_Banana.dir/flags.make
+CMakeFiles/Project_Banana.dir/world.c.o: ../world.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/Project_Banana.dir/world.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/Project_Banana.dir/world.c.o   -c /mnt/c/Users/cacac/CLionProjects/Project-Banana/world.c
 
-CMakeFiles/Project_Banana.dir/food.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project_Banana.dir/food.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/c/Users/cacac/CLionProjects/Project-Banana/food.c > CMakeFiles/Project_Banana.dir/food.c.i
+CMakeFiles/Project_Banana.dir/world.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/Project_Banana.dir/world.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/c/Users/cacac/CLionProjects/Project-Banana/world.c > CMakeFiles/Project_Banana.dir/world.c.i
 
-CMakeFiles/Project_Banana.dir/food.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project_Banana.dir/food.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/c/Users/cacac/CLionProjects/Project-Banana/food.c -o CMakeFiles/Project_Banana.dir/food.c.s
+CMakeFiles/Project_Banana.dir/world.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/Project_Banana.dir/world.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/c/Users/cacac/CLionProjects/Project-Banana/world.c -o CMakeFiles/Project_Banana.dir/world.c.s
 
 # Object files for target Project_Banana
 Project_Banana_OBJECTS = \
 "CMakeFiles/Project_Banana.dir/main.c.o" \
-"CMakeFiles/Project_Banana.dir/creature.c.o" \
-"CMakeFiles/Project_Banana.dir/food.c.o"
+"CMakeFiles/Project_Banana.dir/entities.c.o" \
+"CMakeFiles/Project_Banana.dir/world.c.o"
 
 # External object files for target Project_Banana
 Project_Banana_EXTERNAL_OBJECTS =
 
 Project_Banana: CMakeFiles/Project_Banana.dir/main.c.o
-Project_Banana: CMakeFiles/Project_Banana.dir/creature.c.o
-Project_Banana: CMakeFiles/Project_Banana.dir/food.c.o
+Project_Banana: CMakeFiles/Project_Banana.dir/entities.c.o
+Project_Banana: CMakeFiles/Project_Banana.dir/world.c.o
 Project_Banana: CMakeFiles/Project_Banana.dir/build.make
 Project_Banana: CMakeFiles/Project_Banana.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable Project_Banana"

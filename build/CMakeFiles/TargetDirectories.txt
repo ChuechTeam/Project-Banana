@@ -1,0 +1,3 @@
+/home/nathaan/Documents/banana/Project-Banana/build/CMakeFiles/Project_Banana.dir
+/home/nathaan/Documents/banana/Project-Banana/build/CMakeFiles/edit_cache.dir
+/home/nathaan/Documents/banana/Project-Banana/build/CMakeFiles/rebuild_cache.dir

@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.c" "/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles/Project_Banana.dir/creature.c.o"
-  "/mnt/c/Users/cacac/CLionProjects/Project-Banana/food.c" "/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles/Project_Banana.dir/food.c.o"
+  "/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.c" "/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles/Project_Banana.dir/entities.c.o"
   "/mnt/c/Users/cacac/CLionProjects/Project-Banana/main.c" "/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles/Project_Banana.dir/main.c.o"
+  "/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.c" "/mnt/c/Users/cacac/CLionProjects/Project-Banana/cmake-build-debug/CMakeFiles/Project_Banana.dir/world.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

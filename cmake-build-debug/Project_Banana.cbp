@@ -76,19 +76,22 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.c">
+		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.c">
 			<Option target="Project_Banana"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/creature.h">
+		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/entities.h">
 			<Option target="Project_Banana"/>
 		</Unit>
-		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/food.c">
-			<Option target="Project_Banana"/>
-		</Unit>
-		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/food.h">
+		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/macro.h">
 			<Option target="Project_Banana"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/main.c">
+			<Option target="Project_Banana"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.c">
+			<Option target="Project_Banana"/>
+		</Unit>
+		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/world.h">
 			<Option target="Project_Banana"/>
 		</Unit>
 		<Unit filename="/mnt/c/Users/cacac/CLionProjects/Project-Banana/CMakeLists.txt">
