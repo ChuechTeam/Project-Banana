@@ -1,0 +1,32 @@
+//
+// Created by natha on 04/08/2026.
+//
+#include "Entities.hpp"
+
+
+Entity::Entity(int x, int y) : position{.x = x, .y = y}, is_alive {true} {
+}
+
+Entity::Entity() : position{.x = 0, .y = 0}, is_alive {true} {
+}
+
+
+Creature::Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food)
+    : Entity(x, y), speed(speed), base_energy(base_energy), energy(energy), consumed_food(consumed_food) {
+}
+
+Creature::Creature()
+    : Creature(0, 0, 1.0, 5.0, 5.0, 0) {
+}
+
+char Creature::getSymbol() const {
+    return 'C';
+}
+
+Food::Food(int x, int y) : Entity(x, y) {
+}
+
+
+Vec2 Entity::getPosition() const {
+    return position;
+}
