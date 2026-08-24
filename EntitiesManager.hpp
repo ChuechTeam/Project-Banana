@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include "Entities.hpp"
+class World;
 
 /**
  * @brief Creates a new entity of type T and returns a unique pointer to it. Can add the needed arguments for specific entity creation.
@@ -29,5 +30,7 @@ class EntitiesManager {
 public:
     void addEntity(std::unique_ptr<Entity> entity);
     std::vector<std::unique_ptr<Entity> > const&  getEntities();
+
+    void entitiesTurn(World& world) const;
 };
 #endif //PROJECT_BANANA_ENTITIESMANAGER_HPP

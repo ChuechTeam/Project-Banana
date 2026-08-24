@@ -7,4 +7,7 @@ add_executable(Project_Banana main.cpp
         Entities.cpp
         Entities.hpp
         EntitiesManager.cpp
-        EntitiesManager.hpp)
+        EntitiesManager.hpp
+        World.cpp
+        World.hpp
+        Vec2.hpp)

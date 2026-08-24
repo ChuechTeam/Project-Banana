@@ -4,10 +4,10 @@
 
 #ifndef PROJECT_BANANA_ENTITIES_HPP
 #define PROJECT_BANANA_ENTITIES_HPP
+#include "Vec2.hpp"
+class World;
 
-struct Vec2 {
-    int x, y;
-};
+
 
 
 class Entity {
@@ -21,8 +21,10 @@ public:
 
     virtual ~Entity() = default;
     virtual char getSymbol() const = 0;
+    virtual void turn(World& world) = 0;
 
     Vec2 getPosition() const;
+    void setPosition(const Vec2& new_position);
 };
 
 /**
@@ -39,6 +41,7 @@ public:
     Creature();
 
     char getSymbol() const override;
+    void turn(World& world) override;
 };
 
 class Food : public Entity {
