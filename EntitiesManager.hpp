@@ -5,6 +5,7 @@
 #ifndef PROJECT_BANANA_ENTITIESMANAGER_HPP
 #define PROJECT_BANANA_ENTITIESMANAGER_HPP
 #include <memory>
+#include <unordered_map>
 #include <vector>
 #include "Entities.hpp"
 class World;
@@ -26,11 +27,15 @@ std::unique_ptr<T> createEntity(Args &&... args) {
 
 class EntitiesManager {
     std::vector<std::unique_ptr<Entity> > entities;
+    std::unordered_map<Vec2, std::vector<Entity*>, Vec2Hasher> spatialHash;
 
 public:
     void addEntity(std::unique_ptr<Entity> entity);
-    std::vector<std::unique_ptr<Entity> > const&  getEntities();
 
-    void entitiesTurn(World& world) const;
+    std::vector<std::unique_ptr<Entity> > const &getEntities();
+    void removeEntityFromHash(Entity* entity, Vec2 old_position);
+    void removeEntityFromHash(Entity* entity);
+
+    void entitiesTurn(World &world);
 };
 #endif //PROJECT_BANANA_ENTITIESMANAGER_HPP

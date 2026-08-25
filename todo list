@@ -1,8 +1,9 @@
 make that creatures can choose a target
-    -> position based hash in entity manager
+
 eating
 reproduction
 
 organize system to make it clean
     -> simulation, world, systems, etc
     -> add verification to set position, as it's not in it yet
+bitflags to represent creature capacities for later evolution and mutation system

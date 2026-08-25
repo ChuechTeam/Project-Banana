@@ -33,8 +33,7 @@ char Creature::getSymbol() const {
     return 'C';
 }
 
-void Creature::turn(World &world) {
-    // Implement the logic for the creature's turn here
+Vec2 Creature::move(World &world) {
     std::vector<Vec2> directions = {
         {-1, -1}, {0, -1},
         {1, -1}, {-1, 0},
@@ -49,6 +48,7 @@ void Creature::turn(World &world) {
         directions.pop_back();
     } while (world.isWalkable(new_position) == false);
     setPosition(new_position);
+    return new_position;
     // std::cout << new_position << std::endl;
 }
 
