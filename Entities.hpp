@@ -5,6 +5,7 @@
 #ifndef PROJECT_BANANA_ENTITIES_HPP
 #define PROJECT_BANANA_ENTITIES_HPP
 #include "Vec2.hpp"
+#include "Vision.hpp"
 class World;
 
 
@@ -28,6 +29,15 @@ public:
     void setPosition(const Vec2& new_position);
 };
 
+class Food : public Entity {
+public:
+    Food(int x, int y);
+    Vec2 move(World& world) override {
+        return getPosition(); // Food doesn't move
+    };
+    char getSymbol() const override;
+};
+
 /**
  * @brief creature, arguments for constructor are x, y, speed, base_energy, energy, consumed_food
  */
@@ -37,17 +47,17 @@ class Creature : public Entity {
     double energy;
     int consumed_food;
 
+    Vision vision; // Default vision range and angle
+    Food* target_food = nullptr; // Pointer to the food the creature is currently targeting
 public:
-    Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food);
+    Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision);
     Creature();
 
     char getSymbol() const override;
     Vec2 move(World& world) override;
-};
+    Vision getVision() const;
 
-class Food : public Entity {
-public:
-    Food(int x, int y);
+    void setTargetFood(Food* food);
 };
 
 

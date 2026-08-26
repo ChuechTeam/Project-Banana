@@ -28,6 +28,7 @@ std::unique_ptr<T> createEntity(Args &&... args) {
 class EntitiesManager {
     std::vector<std::unique_ptr<Entity> > entities;
     std::unordered_map<Vec2, std::vector<Entity*>, Vec2Hasher> spatialHash;
+    std::unordered_map<Vision, std::vector<Vec2>, VisionHasher> visionCache;
 
 public:
     void addEntity(std::unique_ptr<Entity> entity);
@@ -35,7 +36,7 @@ public:
     std::vector<std::unique_ptr<Entity> > const &getEntities();
     void removeEntityFromHash(Entity* entity, Vec2 old_position);
     void removeEntityFromHash(Entity* entity);
-
+    void findFoodForCreature(Creature *creature);
     void entitiesTurn(World &world);
 };
 #endif //PROJECT_BANANA_ENTITIESMANAGER_HPP

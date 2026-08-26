@@ -21,7 +21,8 @@ void clearTerminal()
 
 int main() {
     auto world = World();
-    world.entities_manager.addEntity(createEntity<Creature>(1, 2, 1.0, 5.0, 5.0, 0));
+    world.entities_manager.addEntity(createEntity<Creature>());
+    world.entities_manager.addEntity(createEntity<Food>(1, 1));
     world.render();
     while (true) {
         world.entities_manager.entitiesTurn(world);

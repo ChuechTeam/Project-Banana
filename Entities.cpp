@@ -16,17 +16,21 @@ Vec2 Entity::getPosition() const {
     return position;
 }
 
+Vision Creature::getVision() const {
+    return vision;
+}
+
 
 void Entity::setPosition(const Vec2 &new_position) {
     position = new_position;
 }
 
-Creature::Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food)
-    : Entity(x, y), speed(speed), base_energy(base_energy), energy(energy), consumed_food(consumed_food) {
+Creature::Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision)
+    : Entity(x, y), speed(speed), base_energy(base_energy), energy(energy), consumed_food(consumed_food) , vision(vision) {
 }
 
 Creature::Creature()
-    : Creature(0, 0, 1.0, 5.0, 5.0, 0) {
+    : Creature(0, 0, 1.0, 5.0, 5.0, 0, Vision{2, 360}) {
 }
 
 char Creature::getSymbol() const {
@@ -52,5 +56,13 @@ Vec2 Creature::move(World &world) {
     // std::cout << new_position << std::endl;
 }
 
+void Creature::setTargetFood(Food *food) {
+    target_food = food;
+}
+
 Food::Food(int x, int y) : Entity(x, y) {
+}
+
+char Food::getSymbol() const {
+    return 'F';
 }

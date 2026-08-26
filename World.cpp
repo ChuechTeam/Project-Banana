@@ -6,6 +6,7 @@
 
 #include <iostream>
 
+
 void World::render() {
     std::vector<char> grid((map.x + 2) * (map.y + 2), ' ');
     for (auto &entity: entities_manager.getEntities()) {
