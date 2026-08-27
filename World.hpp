@@ -19,6 +19,8 @@ public:
 
     EntitiesManager entities_manager;
 
+    Vec2 getMapSize() const;
+
 
     void render();
 

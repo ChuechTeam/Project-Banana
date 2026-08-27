@@ -42,22 +42,27 @@ public:
  * @brief creature, arguments for constructor are x, y, speed, base_energy, energy, consumed_food
  */
 class Creature : public Entity {
-    double speed;
-    double base_energy;
-    double energy;
+    float speed;
+    float base_energy;
+    float energy;
     int consumed_food;
 
     Vision vision; // Default vision range and angle
     Food* target_food = nullptr; // Pointer to the food the creature is currently targeting
 public:
     Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision);
+    Creature(int x, int y);
     Creature();
 
     char getSymbol() const override;
+    Vec2 selectPartMove(Vec2 target, float _speed);
     Vec2 move(World& world) override;
     Vision getVision() const;
+    float getEnergy() const;
 
     void setTargetFood(Food* food);
+    void setEnergy(float new_energy);
+    void setSpeed(float new_speed);
 };
 
 

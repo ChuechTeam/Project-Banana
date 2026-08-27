@@ -5,6 +5,7 @@
 #ifndef PROJECT_BANANA_VEC2_HPP
 #define PROJECT_BANANA_VEC2_HPP
 #include <iostream>
+#include <cmath>
 
 /**
  * @brief A simple 2D vector structure for representing positions or directions in a 2D space.
@@ -17,11 +18,20 @@ struct Vec2 {
         return {x + other.x, y + other.y};
     }
 
+    Vec2 operator-(const Vec2& other) const{
+        return {x - other.x, y - other.y};
+    }
+
     Vec2& operator+=(const Vec2& other)
     {
         x += other.x;
         y += other.y;
         return *this;
+    }
+
+    float distanceto(const Vec2& other) const
+    {
+        return std::sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
     }
 
 

@@ -1,11 +1,12 @@
-test taget system
-distance is euclidian now so you gotta add the energy and the fact that moving in diagonal costs more energy
 eating
+die when no energy
 reproduction
-
+evolution and mutation system
+-----------
 organize system to make it clean
     -> simulation, world, systems, etc
     -> add verification to set position, as it's not in it yet
+    -> for moving system, change algorythm to check if terrain is walkable
 bitflags to represent creature capacities for later evolution and mutation system
 
 angles for the creature

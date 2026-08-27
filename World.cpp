@@ -6,6 +6,9 @@
 
 #include <iostream>
 
+Vec2 World::getMapSize() const {
+    return map;
+}
 
 void World::render() {
     std::vector<char> grid((map.x + 2) * (map.y + 2), ' ');
