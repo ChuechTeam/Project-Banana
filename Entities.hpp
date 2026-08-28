@@ -57,11 +57,12 @@ class Creature : public Entity {
     float base_energy;
     float energy;
     int consumed_food;
+    float metabolism = 0.1; // Energy consumed per turn
 
     Vision vision; // Default vision range and angle
     Food* target_food = nullptr; // Pointer to the food the creature is currently targeting
 public:
-    Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision);
+    Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision, float metabolism = 0.1);
     Creature(int x, int y);
     Creature();
 
@@ -70,6 +71,7 @@ public:
     float getEnergy() const;
     Food* getTarget() const;
     int getConsumed() const;
+    float getMetabolism() const;
 
     void setTargetFood(Food* food);
     void setEnergy(float new_energy);

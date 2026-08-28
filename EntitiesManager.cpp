@@ -22,15 +22,23 @@ const std::vector<std::unique_ptr<Entity> > &EntitiesManager::getEntities() { re
  * @param old_position the position of the entity before it moved, used to locate the correct bucket in the spatial hash
  */
 void EntitiesManager::removeEntityFromHash(Entity *entity, Vec2 old_position) {
-    auto &bucket = spatialHash.at(old_position);
+    auto hash_it = spatialHash.find(old_position);
+
+    if (hash_it == spatialHash.end())
+        return;
+
+    auto &bucket = hash_it->second;
+
     auto it = std::ranges::find(bucket, entity);
-    if (it != bucket.end()) {
-        *it = bucket.back();
-        bucket.pop_back();
-    }
-    if (bucket.empty()) {
-        spatialHash.erase(old_position);
-    }
+
+    if (it == bucket.end())
+        return;
+
+    *it = bucket.back();
+    bucket.pop_back();
+
+    if (bucket.empty())
+        spatialHash.erase(hash_it);
 }
 
 void EntitiesManager::removeEntityFromHash(Entity *entity) {
@@ -50,7 +58,11 @@ void EntitiesManager::findFoodForCreature(Creature *creature) {
         ).first;
     }
     for (auto &v: it->second) {
-        for (auto &food_entity: spatialHash[creature->getPosition() + v]) {
+        auto itHash = spatialHash.find(creature->getPosition() + v);
+        if (itHash == spatialHash.end()) {
+            continue;
+        }
+        for (Entity *food_entity: itHash->second) {
             if (Food *food = dynamic_cast<Food *>(food_entity)) {
                 if (food != nullptr && food->isAlive()) return creature->setTargetFood(food);
             }
@@ -63,7 +75,14 @@ void EntitiesManager::findFoodForCreature(Creature *creature) {
  * @param world just the data/map
  */
 void EntitiesManager::entitiesTurn(World &world) {
+    if (entities.empty()) return;
     for (auto &entity: entities) {
+        // this bellow causes problem cause we try to delete them each turn
+        // if (entity->isAlive() == false) {
+        //     removeEntityFromHash(entity.get());
+        //     continue;
+        // }
+
         Creature *creature = dynamic_cast<Creature *>(entity.get());
         //vision part:
         if (creature != nullptr) {
@@ -79,13 +98,15 @@ void EntitiesManager::entitiesTurn(World &world) {
             spatialHash[new_position].push_back(entity.get());
         }
         if (creature != nullptr) {
-            if (creature->getTarget() != nullptr) {
-                if (creature->getPosition() == creature->getTarget()->getPosition()) {
-                    if (creature->getTarget()->isAlive()) {
-                        creature->consumeFood(creature->getTarget());
+            Food *target = creature->getTarget();
+            if (target != nullptr) {
+                if (creature->getPosition() == target->getPosition()) {
+                    if (target->isAlive()) {
+                        creature->consumeFood(target);
                     }
                 }
             }
+            creature->setEnergy(creature->getEnergy() - creature->getMetabolism());
             std::cout << creature->getConsumed() << std::endl;
         }
     }

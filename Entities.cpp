@@ -40,8 +40,8 @@ int Food::beingConsumed() {
 }
 
 
-Creature::Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision)
-    : Entity(x, y), speed(speed), base_energy(base_energy), energy(energy), consumed_food(consumed_food) , vision(vision) {
+Creature::Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision, float metabolism)
+    : Entity(x, y), speed(speed), base_energy(base_energy), energy(energy), consumed_food(consumed_food) , vision(vision) , metabolism(metabolism) {
 }
 Creature::Creature(int x, int y)
     : Creature(x, y, 1.0, 5.0, 5.0, 0, Vision{2, 360}) {
@@ -61,6 +61,10 @@ Food* Creature::getTarget() const {
 
 int Creature::getConsumed() const {
     return consumed_food;
+}
+
+float Creature::getMetabolism() const {
+    return metabolism;
 }
 
 Vec2 Creature::selectPartMove(Vec2 target, float _speed) {
@@ -129,6 +133,9 @@ void Creature::setTargetFood(Food *food) {
 }
 void Creature::setEnergy(float new_energy) {
     energy = std::max(0.0f,new_energy);
+    if (energy <= 0) {
+        setAlive(false);
+    }
 }
 void Creature::setSpeed(float new_speed) {
     speed = std::max(0.0f,new_speed);
