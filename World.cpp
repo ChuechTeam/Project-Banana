@@ -13,6 +13,9 @@ Vec2 World::getMapSize() const {
 void World::render() {
     std::vector<char> grid((map.x + 2) * (map.y + 2), ' ');
     for (auto &entity: entities_manager.getEntities()) {
+        if (!entity->isAlive()) {
+            continue;
+        }
         int x = entity->getPosition().x;
         int y = entity->getPosition().y;
         grid[(y + 1) * (map.x + 2) + (x + 1)] = entity->getSymbol();

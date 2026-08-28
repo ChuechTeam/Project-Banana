@@ -16,6 +16,10 @@ Vec2 Entity::getPosition() const {
     return position;
 }
 
+bool Entity::isAlive() const {
+    return is_alive;
+}
+
 Vision Creature::getVision() const {
     return vision;
 }
@@ -24,6 +28,17 @@ Vision Creature::getVision() const {
 void Entity::setPosition(const Vec2 &new_position) {
     position = new_position;
 }
+
+void Entity::setAlive(bool alive) {
+    is_alive = alive;
+}
+
+
+int Food::beingConsumed() {
+    setAlive(false);
+    return nutrition_value;
+}
+
 
 Creature::Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision)
     : Entity(x, y), speed(speed), base_energy(base_energy), energy(energy), consumed_food(consumed_food) , vision(vision) {
@@ -38,6 +53,14 @@ Creature::Creature()
 
 char Creature::getSymbol() const {
     return 'C';
+}
+
+Food* Creature::getTarget() const {
+    return target_food;
+}
+
+int Creature::getConsumed() const {
+    return consumed_food;
 }
 
 Vec2 Creature::selectPartMove(Vec2 target, float _speed) {
@@ -90,6 +113,15 @@ Vec2 Creature::move(World &world) {
     }
     return getPosition();
     // std::cout << new_position << std::endl;
+}
+
+void Creature::consumeFood(Food *food) {
+    if (food != nullptr && food->isAlive()) {
+        consumed_food+= food->beingConsumed();
+        if (!food->isAlive()) {
+            target_food = nullptr;
+        }
+    }
 }
 
 void Creature::setTargetFood(Food *food) {

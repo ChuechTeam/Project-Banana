@@ -37,6 +37,8 @@ void EntitiesManager::removeEntityFromHash(Entity *entity) {
     auto old_position = entity->getPosition();
     removeEntityFromHash(entity, old_position);
 }
+
+
 void EntitiesManager::findFoodForCreature(Creature *creature) {
     Vision vision = creature->getVision();
     auto it = visionCache.find(vision);
@@ -47,26 +49,26 @@ void EntitiesManager::findFoodForCreature(Creature *creature) {
             vision.getVisiblePositions()
         ).first;
     }
-    for (auto &v : it->second) {
+    for (auto &v: it->second) {
         for (auto &food_entity: spatialHash[creature->getPosition() + v]) {
             if (Food *food = dynamic_cast<Food *>(food_entity)) {
-                return creature->setTargetFood(food);
+                if (food != nullptr && food->isAlive()) return creature->setTargetFood(food);
             }
         }
     }
 }
+
 /**
  * @brief Iterates through all entities and for each to have a turn
  * @param world just the data/map
  */
 void EntitiesManager::entitiesTurn(World &world) {
     for (auto &entity: entities) {
+        Creature *creature = dynamic_cast<Creature *>(entity.get());
         //vision part:
-        if (Creature *creature = dynamic_cast<Creature *>(entity.get())) {
+        if (creature != nullptr) {
             findFoodForCreature(creature);
         }
-
-
 
 
         //moving part
@@ -75,6 +77,16 @@ void EntitiesManager::entitiesTurn(World &world) {
         if (new_position != old_position) {
             removeEntityFromHash(entity.get(), old_position);
             spatialHash[new_position].push_back(entity.get());
+        }
+        if (creature != nullptr) {
+            if (creature->getTarget() != nullptr) {
+                if (creature->getPosition() == creature->getTarget()->getPosition()) {
+                    if (creature->getTarget()->isAlive()) {
+                        creature->consumeFood(creature->getTarget());
+                    }
+                }
+            }
+            std::cout << creature->getConsumed() << std::endl;
         }
     }
 }
