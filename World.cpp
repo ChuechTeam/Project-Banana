@@ -46,3 +46,12 @@ bool World::isWalkable(Vec2 position) {
     }
     return true;
 }
+
+Vec2 World::getRandomWalkablePosition() {
+    Vec2 position;
+    do {
+        position.x = rand() % map.x;
+        position.y = rand() % map.y;
+    } while (!isWalkable(position));
+    return position;
+}

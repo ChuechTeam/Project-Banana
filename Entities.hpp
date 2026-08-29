@@ -4,6 +4,8 @@
 
 #ifndef PROJECT_BANANA_ENTITIES_HPP
 #define PROJECT_BANANA_ENTITIES_HPP
+#include <memory>
+
 #include "Vec2.hpp"
 #include "Vision.hpp"
 class World;
@@ -16,7 +18,7 @@ class Entity {
     bool is_alive;
 
 public:
-    Entity(int x, int y);
+    Entity(Vec2 position);
 
     Entity();
 
@@ -24,6 +26,7 @@ public:
     virtual char getSymbol() const = 0;
     // virtual void turn(World& world) = 0;
     virtual Vec2 move(World& world) = 0;
+    virtual std::vector<std::unique_ptr<Entity>> reproduction(World& world) = 0;
 
     Vec2 getPosition() const;
     bool isAlive() const;
@@ -32,10 +35,28 @@ public:
     void setAlive(bool alive);
 };
 
+/**
+ * @brief Creates a new entity of type T and returns a unique pointer to it. Can add the needed arguments for specific entity creation.
+ *
+ *
+ *
+ * @tparam T the entity's children you want to create
+ * @return the unique pointer of the entity created
+ */
+template<class T, typename... Args>
+    requires std::derived_from<T, Entity> // Ensure T is derived from Entity
+std::unique_ptr<T> createEntity(Args &&... args) {
+    return std::make_unique<T>(
+        std::forward<Args>(args)...);
+}
+
+/**
+ * @brief food, currently what creatures eat, arguments for constructor are Vec2{x, y}, nutrition_value (default is 1)
+ */
 class Food : public Entity {
-    int nutrition_value = 1; // Default nutrition value for food
+    int nutrition_value; // Default nutrition value for food
 public:
-    Food(int x, int y);
+    Food(Vec2 position, int nutrition_value = 1);
     Vec2 move(World& world) override {
         return getPosition(); // Food doesn't move
     };
@@ -47,10 +68,17 @@ public:
 
     int beingConsumed();
 
+    /**
+     * @brif currently, food will just respawn at a random position on the map. Later on, will probably reproduce for real
+     * @param world the map
+     * @return self but reset
+     */
+    std::vector<std::unique_ptr<Entity>> reproduction(World &world) override;
+
 };
 
 /**
- * @brief creature, arguments for constructor are x, y, speed, base_energy, energy, consumed_food
+ * @brief creature, arguments for constructor are Vec2{x, y}, speed, base_energy, energy, consumed_food
  */
 class Creature : public Entity {
     float speed;
@@ -62,11 +90,10 @@ class Creature : public Entity {
     Vision vision; // Default vision range and angle
     Food* target_food = nullptr; // Pointer to the food the creature is currently targeting
 public:
-    Creature(int x, int y, double speed, double base_energy, double energy, int consumed_food, Vision vision, float metabolism = 0.1);
-    Creature(int x, int y);
+    Creature(Vec2 position, double speed, double base_energy, double energy, int consumed_food, Vision vision, float metabolism = 0.1);
+    Creature(Vec2 position);
     Creature();
 
-    char getSymbol() const override;
     Vision getVision() const;
     float getEnergy() const;
     Food* getTarget() const;
@@ -80,6 +107,9 @@ public:
     Vec2 selectPartMove(Vec2 target, float _speed);
     Vec2 move(World& world) override;
     void consumeFood(Food* food);
+
+    char getSymbol() const override;
+    std::vector<std::unique_ptr<Entity>> reproduction(World &world) override;
 };
 
 

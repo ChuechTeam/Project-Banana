@@ -25,5 +25,7 @@ public:
     void render();
 
     bool isWalkable(Vec2 position);
+
+    Vec2 getRandomWalkablePosition();
 };
 #endif //PROJECT_BANANA_WORLD_HPP

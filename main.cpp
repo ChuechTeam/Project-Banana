@@ -21,13 +21,20 @@ void clearTerminal()
 
 int main() {
     auto world = World();
-    world.entities_manager.addEntity(createEntity<Creature>(3,3, 1, 5, 5.5, 0, Vision{10, 360}));
-    world.entities_manager.addEntity(createEntity<Food>(1, 1));
-    world.entities_manager.addEntity(createEntity<Food>(5, 5));
+    world.entities_manager.addEntity(createEntity<Creature>(Vec2{3,3}, 1, 15, 15, 0, Vision{10, 360}));
+    world.entities_manager.addEntity(createEntity<Food>(Vec2{1, 1}));
+    world.entities_manager.addEntity(createEntity<Food>(Vec2{5, 5}));
     // world.entities_manager.addEntity(createEntity<Food>(3, 2));
     world.render();
+    bool alive = true;
     while (true) {
-        world.entities_manager.entitiesTurn(world);
+        if (!alive) {
+            std::cout << "All creatures are dead. Simulation ended." << std::endl;
+            world.entities_manager.reproduction(world);
+            clearTerminal();
+            world.render();
+        }
+        alive = world.entities_manager.entitiesTurn(world);
         clearTerminal();
         world.render();
         std::this_thread::sleep_for(std::chrono::milliseconds(250));

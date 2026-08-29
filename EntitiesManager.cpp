@@ -70,12 +70,10 @@ void EntitiesManager::findFoodForCreature(Creature *creature) {
     }
 }
 
-/**
- * @brief Iterates through all entities and for each to have a turn
- * @param world just the data/map
- */
-void EntitiesManager::entitiesTurn(World &world) {
-    if (entities.empty()) return;
+
+bool EntitiesManager::entitiesTurn(World &world) {
+    bool anyAlive = false;
+    if (entities.empty()) return anyAlive;
     for (auto &entity: entities) {
         // this bellow causes problem cause we try to delete them each turn
         // if (entity->isAlive() == false) {
@@ -108,6 +106,43 @@ void EntitiesManager::entitiesTurn(World &world) {
             }
             creature->setEnergy(creature->getEnergy() - creature->getMetabolism());
             std::cout << creature->getConsumed() << std::endl;
+            anyAlive |= creature->isAlive();
+        }
+    }
+    return anyAlive;
+}
+
+void EntitiesManager::reproduction(World &world) {
+    spatialHash.clear();
+
+    std::vector<std::unique_ptr<Entity> > old_entities = std::move(entities);
+    auto oldVisionCache = std::move(visionCache);
+
+    for (auto &entity: old_entities) {
+        auto children = entity->reproduction(world);
+
+        for (auto &child: children) {
+            if (!child)
+                continue;
+
+            Creature *creature = dynamic_cast<Creature *>(child.get());
+
+            if (creature) {
+                const Vision &vision = creature->getVision();
+
+                auto node = oldVisionCache.extract(vision);
+
+                if (!node.empty()) {
+                    visionCache.insert(std::move(node));
+                } else {
+                    visionCache.emplace(
+                        vision,
+                        vision.getVisiblePositions()
+                    );
+                }
+            }
+
+            addEntity(std::move(child));
         }
     }
 }
