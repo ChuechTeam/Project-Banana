@@ -6,6 +6,7 @@
 #define PROJECT_BANANA_ENTITIES_HPP
 #include <memory>
 
+#include "GeneticSystem.hpp"
 #include "Vec2.hpp"
 #include "Vision.hpp"
 class World;
@@ -81,15 +82,13 @@ public:
  * @brief creature, arguments for constructor are Vec2{x, y}, speed, base_energy, energy, consumed_food
  */
 class Creature : public Entity {
-    float speed;
-    float base_energy;
+    Genome genome;
     float energy;
     int consumed_food;
-    float metabolism = 0.1; // Energy consumed per turn
 
-    Vision vision; // Default vision range and angle
     Food* target_food = nullptr; // Pointer to the food the creature is currently targeting
 public:
+    Creature(Vec2 position, float base_energy, Genome genome, int consumed_food);
     Creature(Vec2 position, double speed, double base_energy, double energy, int consumed_food, Vision vision, float metabolism = 0.1);
     Creature(Vec2 position);
     Creature();

@@ -11,4 +11,8 @@ add_executable(Project_Banana main.cpp
         World.cpp
         World.hpp
         Vec2.hpp
-        Vision.hpp)
+        Vision.hpp
+        GeneticSystem.hpp
+        GeneticSystem.cpp
+        GeneticSystem.cpp
+        GeneticSystem.hpp)

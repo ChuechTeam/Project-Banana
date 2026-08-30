@@ -5,6 +5,7 @@
 #include "World.hpp"
 
 
+
 Entity::Entity(Vec2 position) : position{position}, is_alive{true} {
 }
 
@@ -21,7 +22,7 @@ bool Entity::isAlive() const {
 }
 
 Vision Creature::getVision() const {
-    return vision;
+    return genome.vision;
 }
 
 
@@ -57,11 +58,13 @@ std::vector<std::unique_ptr<Entity> > Food::reproduction(World &world) {
     return children;
 }
 
+Creature::Creature(Vec2 position, float base_energy, Genome genome, int consumed_food) : Entity(position),
+    genome(genome), energy(base_energy), consumed_food(consumed_food) {
+}
 
 Creature::Creature(Vec2 position, double speed, double base_energy, double energy, int consumed_food, Vision vision,
                    float metabolism)
-    : Entity(position), speed(speed), base_energy(base_energy), energy(energy), consumed_food(consumed_food),
-      vision(vision), metabolism(metabolism) {
+    : Entity(position), genome(speed, base_energy, vision, metabolism), energy(energy), consumed_food(consumed_food) {
 }
 
 Creature::Creature(Vec2 position)
@@ -81,7 +84,7 @@ int Creature::getConsumed() const {
 }
 
 float Creature::getMetabolism() const {
-    return metabolism;
+    return genome.metabolism;
 }
 
 Vec2 Creature::selectPartMove(Vec2 target, float _speed) {
@@ -100,7 +103,7 @@ Vec2 Creature::selectPartMove(Vec2 target, float _speed) {
 }
 
 Vec2 Creature::move(World &world) {
-    float _speed = speed; //speed for this turn
+    float _speed = genome.speed; //speed for this turn
     Vec2 target = target_food
                       ? target_food->getPosition()
                       : Vec2{rand() % world.getMapSize().x, rand() % world.getMapSize().y};
@@ -159,7 +162,7 @@ void Creature::setEnergy(float new_energy) {
 }
 
 void Creature::setSpeed(float new_speed) {
-    speed = std::max(0.0f, new_speed);
+    genome.speed = std::max(0.0f, new_speed);
 }
 
 
@@ -173,18 +176,19 @@ char Creature::getSymbol() const {
 
 std::vector<std::unique_ptr<Entity> > Creature::reproduction(World &world) {
     std::vector<std::unique_ptr<Entity> > children;
-    while (consumed_food >0) {
-        children.push_back(
-            createEntity<Creature>(
+    while (consumed_food > 0) {
+        auto child = createEntity<Creature>(
                 world.getRandomWalkablePosition(),
-                speed,
-                base_energy,
-                base_energy,
+                genome.speed,
+                genome.base_energy,
+                genome.base_energy,
                 0,
-                vision,
-                metabolism
-            )
-        );
+                genome.vision,
+                genome.metabolism
+            );
+        GeneticSystem::mutation(world.getRng(), child->genome, 1);
+        child->setEnergy(child->genome.base_energy);
+        children.push_back(std::move(child));
         consumed_food--;
     }
     return children;
