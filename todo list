@@ -1,0 +1,20 @@
+take down surcharge for constructors and use default parameters
+change rand to the rng thing
+organize system to make it clean
+    -> simulation, world, systems, etc
+    -> add verification to set position, as it's not in it yet
+    -> for moving system, change algorythm to check if terrain is walkable
+bitflags to represent creature capacities for later evolution and mutation system
+take consumed from food to entity so any entity can consume any entity
+
+angles for the creature
+no sorting for vision cache
+
+make own visual stuff, without terminal
+
+files log
+
+ideas :
+eating brings energy
+genome distribution (how?)
+add a reproduction condition depending on the "price" of the genome

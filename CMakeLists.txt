@@ -1,34 +1,18 @@
 cmake_minimum_required(VERSION 3.16)
-project(Project_Banana C)
+project(Project_Banana)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 20)
 
-
-
-add_executable(Project_Banana
-        main.c entities.h entities.c macro.h
-        world.h
-        world.c
-        world.c
-        game.h
-        game.c
-        terminal.c
-        graphic.h
-        graphic.h
-        graphic.c)
-
-
-
-# Détection du système d'exploitation
-if (WIN32)
-    # Options de compilation pour Windows
-    add_compile_options(-Wall)
-    set(LINK_LIBS ws2_32)
-elseif (UNIX AND NOT APPLE)
-    # Options de compilation pour Linux
-    add_compile_options(-Wall -m)
-    set(LINK_LIBS m)
-endif()
-
-target_link_libraries(Project_Banana ${LINK_LIBS})
-target_link_libraries(Project_Banana ${CURSES_LIBRARIES})
+add_executable(Project_Banana main.cpp
+        Entities.cpp
+        Entities.hpp
+        EntitiesManager.cpp
+        EntitiesManager.hpp
+        World.cpp
+        World.hpp
+        Vec2.hpp
+        Vision.hpp
+        GeneticSystem.hpp
+        GeneticSystem.cpp
+        GeneticSystem.cpp
+        GeneticSystem.hpp)

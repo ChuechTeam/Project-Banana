@@ -1,7 +1,0 @@
-# ninja log v6
-3	467	1725178345020016665	CMakeFiles/Project_Banana.dir/main.c.o	99289521d811c7bd
-49	2075	1725137509396322101	CMakeFiles/Project_Banana.dir/game.c.o	1506e1317f63adf4
-39	2076	1725137509386322101	CMakeFiles/Project_Banana.dir/world.c.o	340395327768fd65
-81	1340	1725140814783215773	CMakeFiles/Project_Banana.dir/entities.c.o	760bcc33e44b3fe
-467	1033	1725178345483350030	Project_Banana	f09220bd521befd6
-65	2217	1725137509412988769	CMakeFiles/Project_Banana.dir/terminal.c.o	ec8b08527e7c20be
